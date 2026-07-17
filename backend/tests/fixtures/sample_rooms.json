@@ -1,0 +1,30 @@
+{
+  "exportedAtUtc": "2026-07-17T06:30:00Z",
+  "documentTitle": "Sample.rvt",
+  "rooms": [
+    {
+      "name": "Office",
+      "number": "101",
+      "level": "Level 1",
+      "area": 25.5,
+      "doorCount": 2,
+      "windowCount": 1
+    },
+    {
+      "name": "Meeting",
+      "number": "102",
+      "level": "Level 1",
+      "area": 40.0,
+      "doorCount": 1,
+      "windowCount": 2
+    },
+    {
+      "name": "Storage",
+      "number": "201",
+      "level": "Level 2",
+      "area": 12.25,
+      "doorCount": 1,
+      "windowCount": 0
+    }
+  ]
+}
