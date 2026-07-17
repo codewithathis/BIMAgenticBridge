@@ -21,7 +21,7 @@ def check_data_availability(path: Path, ttl_seconds: int) -> DataAvailability:
         return DataAvailability(exists=False, stale=True, path=path, error="data.json not found")
 
     try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
     except (OSError, json.JSONDecodeError) as exc:
         return DataAvailability(
             exists=True,
@@ -58,7 +58,7 @@ def check_data_availability(path: Path, ttl_seconds: int) -> DataAvailability:
 
 
 def load_rooms(path: Path) -> dict[str, Any]:
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload = json.loads(path.read_text(encoding="utf-8-sig"))
     if not isinstance(payload, dict):
         raise ValueError("data.json root must be an object")
     rooms = payload.get("rooms", [])

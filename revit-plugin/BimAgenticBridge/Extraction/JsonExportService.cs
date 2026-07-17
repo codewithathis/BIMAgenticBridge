@@ -19,6 +19,9 @@ namespace BimAgenticBridge.Extraction
             NullValueHandling = NullValueHandling.Ignore
         };
 
+        // Encoding.UTF8 writes a BOM by default; Python json rejects that unless utf-8-sig is used.
+        private static readonly Encoding Utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+
         public string Export(Document doc, IList<RoomData> rooms, string outputPath = null)
         {
             if (doc == null)
@@ -52,7 +55,7 @@ namespace BimAgenticBridge.Extraction
             }
 
             string tempPath = path + ".tmp";
-            File.WriteAllText(tempPath, json, Encoding.UTF8);
+            File.WriteAllText(tempPath, json, Utf8NoBom);
 
             if (File.Exists(path))
             {
