@@ -23,7 +23,7 @@ namespace BimAgenticBridge
 
         public const string VendorId = "ATHISJ";
         public const string VendorDescription =
-            "Athis J — AI-powered BIM room assessment for Autodesk Revit. https://github.com/codewithathis";
+            "Athis J - AI-powered BIM room assessment for Autodesk Revit. https://github.com/codewithathis";
 
         public const string PanelHeader = "BIM Agentic Bridge";
         public const string PanelSubtitle = "Ask about rooms, levels, doors, and windows";

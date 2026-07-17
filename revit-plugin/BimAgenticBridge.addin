@@ -11,6 +11,6 @@
     <AddInId>B7E3D2A1-4C5F-48A9-9E10-7D6C5B4A3210</AddInId>
     <FullClassName>BimAgenticBridge.App</FullClassName>
     <VendorId>ATHISJ</VendorId>
-    <VendorDescription>Athis J — AI-powered BIM room assessment for Autodesk Revit. https://github.com/codewithathis</VendorDescription>
+    <VendorDescription>Athis J - AI-powered BIM room assessment for Autodesk Revit. https://github.com/codewithathis</VendorDescription>
   </AddIn>
 </RevitAddIns>
