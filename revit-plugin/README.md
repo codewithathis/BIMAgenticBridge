@@ -1,38 +1,35 @@
 # Revit Plugin (BimAgenticBridge)
 
-.NET Framework 4.8 WPF dockable chat add-in for Revit 2024.
+.NET 10 WPF dockable chat add-in for **Revit 2027**.
 
 ## Prerequisites
 
-- Visual Studio 2022 with .NET desktop development
-- Autodesk Revit 2024 (for `RevitAPI.dll` / `RevitAPIUI.dll`)
-- Newtonsoft.Json 13.0.3 NuGet package
+- Visual Studio 2022 (17.14+) or `dotnet` SDK 10
+- Autodesk Revit 2027
+- Default API path: `D:\Development\Autodesk\Revit 2027`
 
-## Restore Newtonsoft.Json
-
-From the repo root (PowerShell):
+If Revit is installed elsewhere, build with:
 
 ```powershell
-$pkgDir = "revit-plugin\BimAgenticBridge\packages\Newtonsoft.Json.13.0.3"
-$zip = "$env:TEMP\newtonsoft.json.13.0.3.zip"
-Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Newtonsoft.Json/13.0.3" -OutFile $zip
-Expand-Archive -Path $zip -DestinationPath $pkgDir -Force
+dotnet build -p:RevitInstallPath="C:\Path\To\Revit 2027"
 ```
-
-Or open the solution in Visual Studio and restore NuGet packages.
 
 ## Build
 
-1. Open `BimAgenticBridge.sln` in Visual Studio
-2. Confirm Revit 2024 reference paths in `BimAgenticBridge.csproj` match your install
-3. Build **Debug** or **Release**
+```powershell
+cd revit-plugin
+& "C:\Program Files\dotnet\dotnet.exe" build BimAgenticBridge.sln -c Debug
+```
+
+Or open `BimAgenticBridge.sln` in Visual Studio and build.
 
 ## Install the add-in
 
-1. Copy `BimAgenticBridge.addin` to `%AppData%\Autodesk\Revit\Addins\2024\`
-2. Edit the `<Assembly>` path in that file so it points at your built `BimAgenticBridge.dll`
-3. Ensure `Newtonsoft.Json.dll` is next to the plugin DLL (Copy Local is enabled)
-4. Restart Revit 2024
+1. Copy `BimAgenticBridge.addin` to `%AppData%\Autodesk\Revit\Addins\2027\`
+2. Edit the `<Assembly>` path so it points at your built `BimAgenticBridge.dll`  
+   (default Debug output: `revit-plugin\BimAgenticBridge\bin\Debug\BimAgenticBridge.dll`)
+3. Ensure `Newtonsoft.Json.dll` is next to the plugin DLL (copied on build)
+4. Restart Revit 2027
 
 ## Runtime data path
 

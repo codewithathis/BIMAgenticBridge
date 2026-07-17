@@ -1,6 +1,6 @@
 # BimAgenticBridge
 
-AI-based BIM assessment bridge: a Revit 2024 WPF chat plugin that exports room data, plus a local FastAPI agent that answers questions using OpenAI tool-calling against the exported JSON.
+AI-based BIM assessment bridge: a Revit 2027 (.NET 10) WPF chat plugin that exports room data, plus a local FastAPI agent that answers questions using OpenAI tool-calling against the exported JSON.
 
 ## Architecture
 
@@ -18,7 +18,7 @@ When the agent needs room data and the JSON is missing or stale, it returns `ext
 
 | Path | Purpose |
 |------|---------|
-| `revit-plugin/` | C# .NET Framework 4.8 Revit add-in |
+| `revit-plugin/` | C# .NET 10 Revit 2027 add-in |
 | `backend/` | FastAPI agent (`POST /chat`) |
 | `data/` | Placeholder (runtime export uses AppData) |
 
@@ -46,14 +46,13 @@ Health check: `GET http://127.0.0.1:8000/health`
 
 ## Revit plugin setup
 
-1. Restore Newtonsoft.Json (see [revit-plugin/README.md](revit-plugin/README.md))
-2. Open `revit-plugin/BimAgenticBridge.sln` in Visual Studio 2022
-3. Confirm Revit 2024 DLL HintPaths in the `.csproj`
-4. Build Debug
-5. Copy `revit-plugin/BimAgenticBridge.addin` to `%AppData%\Autodesk\Revit\Addins\2024\`
-6. Edit `<Assembly>` in the `.addin` file to your built `BimAgenticBridge.dll` path
-7. Ensure `Newtonsoft.Json.dll` sits next to the plugin DLL
-8. Start Revit 2024 → ribbon tab **BimAgenticBridge** → **Chat**
+1. Open `revit-plugin/BimAgenticBridge.sln` in Visual Studio 2022, or build with .NET 10 SDK
+2. Default Revit API path is `D:\Development\Autodesk\Revit 2027` (override with `-p:RevitInstallPath=...`)
+3. Build Debug
+4. Copy `revit-plugin/BimAgenticBridge.addin` to `%AppData%\Autodesk\Revit\Addins\2027\`
+5. Edit `<Assembly>` in the `.addin` file to your built `BimAgenticBridge.dll` path
+6. Ensure `Newtonsoft.Json.dll` sits next to the plugin DLL
+7. Start Revit 2027 → ribbon tab **BimAgenticBridge** → **Chat**
 
 ## Chat API contract
 
@@ -74,7 +73,7 @@ Use this checklist before submission.
 
 ### A. Plugin load
 
-1. Place `.addin` + build output; start Revit 2024
+1. Place `.addin` + build output; start Revit 2027
 2. Confirm no add-in error dialog; ribbon button **BimAgenticBridge** appears
 3. Click **Chat** → dockable chat panel opens
 
