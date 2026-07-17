@@ -124,6 +124,10 @@ namespace BimAgenticBridge.UI
                         return;
                     }
 
+                    Messages.Add(new ChatMessage(
+                        "System",
+                        "Exported to " + (_exportHandler.LastExportPath ?? PathConfig.DataJsonPath)));
+
                     response = await _apiClient.PostChatAsync(message, dataReady: true).ConfigureAwait(true);
                 }
 

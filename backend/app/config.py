@@ -29,7 +29,11 @@ class Settings(BaseSettings):
     @property
     def resolved_data_json_path(self) -> Path:
         if self.data_json_path:
-            return Path(self.data_json_path)
+            path = Path(os.path.expandvars(self.data_json_path)).expanduser()
+            if not path.is_absolute():
+                # Resolve relative paths from the backend working directory.
+                path = (Path.cwd() / path).resolve()
+            return path
         return Path(default_data_json_path())
 
 
