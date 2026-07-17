@@ -2,6 +2,10 @@
 
 Local OpenAI tool-calling agent that answers chat questions using Revit-exported room JSON.
 
+**Author:** [Athis J](https://github.com/codewithathis) · [trichyathis@gmail.com](mailto:trichyathis@gmail.com)
+
+Credits / about: `GET /about`
+
 ## Setup
 
 ```powershell

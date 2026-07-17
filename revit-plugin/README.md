@@ -1,6 +1,8 @@
-# Revit Plugin (BimAgenticBridge)
+# Revit Plugin (BIM Agentic Bridge)
 
 .NET 10 WPF dockable chat add-in for **Revit 2027**.
+
+**Author:** [Athis J](https://github.com/codewithathis) · [trichyathis@gmail.com](mailto:trichyathis@gmail.com)
 
 ## Prerequisites
 
@@ -36,11 +38,13 @@ Or open `BimAgenticBridge.sln` in Visual Studio and build (after the PATH/`DOTNE
 
 ## Install the add-in
 
-1. Copy `BimAgenticBridge.addin` to `%AppData%\Autodesk\Revit\Addins\2027\`
-2. Edit the `<Assembly>` path so it points at your built `BimAgenticBridge.dll`  
-   (default Debug output: `revit-plugin\BimAgenticBridge\bin\Debug\BimAgenticBridge.dll`)
-3. Ensure `Newtonsoft.Json.dll` is next to the plugin DLL (copied on build)
-4. Restart Revit 2027
+From the repo root (recommended for reviewers):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-addin.ps1
+```
+
+Or manually: copy a filled `BimAgenticBridge.addin` to `%AppData%\Autodesk\Revit\Addins\2027\` with the full path to your built DLL. Ensure `Newtonsoft.Json.dll` is next to the plugin DLL, then restart Revit 2027.
 
 ## Runtime data path
 

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Template add-in manifest. Prefer scripts/install-addin.ps1 so the Assembly path
+  matches your local build output.
+  Author: Athis J — https://github.com/codewithathis
+-->
 <RevitAddIns>
   <AddIn Type="Application">
     <Name>BIM Agentic Bridge</Name>
-    <Assembly>D:\Development\Python\BimAgenticBridge\revit-plugin\BimAgenticBridge\bin\Debug\BimAgenticBridge.dll</Assembly>
+    <Assembly>REPLACE_WITH_FULL_PATH_TO\BimAgenticBridge.dll</Assembly>
     <AddInId>B7E3D2A1-4C5F-48A9-9E10-7D6C5B4A3210</AddInId>
     <FullClassName>BimAgenticBridge.App</FullClassName>
-    <VendorId>BimAgentic</VendorId>
-    <VendorDescription>AI-powered BIM room assessment for Autodesk Revit</VendorDescription>
+    <VendorId>ATHISJ</VendorId>
+    <VendorDescription>Athis J — AI-powered BIM room assessment for Autodesk Revit. https://github.com/codewithathis</VendorDescription>
   </AddIn>
 </RevitAddIns>
