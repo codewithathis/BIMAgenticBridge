@@ -1,0 +1,38 @@
+import os
+from functools import lru_cache
+from pathlib import Path
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def default_data_json_path() -> str:
+    local_app_data = os.environ.get("LOCALAPPDATA")
+    if local_app_data:
+        return str(Path(local_app_data) / "BimAgenticBridge" / "data.json")
+    return str(Path.home() / "AppData" / "Local" / "BimAgenticBridge" / "data.json")
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    openai_api_key: str = ""
+    openai_model: str = "gpt-4o-mini"
+    data_json_path: str = ""
+    data_ttl_seconds: int = 300
+    api_host: str = "127.0.0.1"
+    api_port: int = 8000
+
+    @property
+    def resolved_data_json_path(self) -> Path:
+        if self.data_json_path:
+            return Path(self.data_json_path)
+        return Path(default_data_json_path())
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
