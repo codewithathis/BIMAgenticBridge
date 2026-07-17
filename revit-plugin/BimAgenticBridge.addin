@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RevitAddIns>
   <AddIn Type="Application">
-    <Name>BimAgenticBridge</Name>
+    <Name>BIM Agentic Bridge</Name>
     <Assembly>D:\Development\Python\BimAgenticBridge\revit-plugin\BimAgenticBridge\bin\Debug\BimAgenticBridge.dll</Assembly>
     <AddInId>B7E3D2A1-4C5F-48A9-9E10-7D6C5B4A3210</AddInId>
     <FullClassName>BimAgenticBridge.App</FullClassName>
     <VendorId>BimAgentic</VendorId>
-    <VendorDescription>AI BIM assessment bridge</VendorDescription>
+    <VendorDescription>AI-powered BIM room assessment for Autodesk Revit</VendorDescription>
   </AddIn>
 </RevitAddIns>

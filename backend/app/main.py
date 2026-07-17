@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routers import chat
 
 app = FastAPI(
-    title="BimAgenticBridge",
+    title="BIM Agentic Bridge",
     description="Local AI agent for Revit BIM room assessment",
     version="1.0.0",
 )

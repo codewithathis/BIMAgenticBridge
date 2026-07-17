@@ -9,11 +9,15 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <TextBlock Grid.Row="0"
-               Text="BimAgenticBridge"
-               FontSize="16"
-               FontWeight="SemiBold"
-               Margin="0,0,0,8" />
+    <StackPanel Grid.Row="0" Margin="0,0,0,8">
+      <TextBlock Text="BIM Agentic Bridge"
+                 FontSize="16"
+                 FontWeight="SemiBold" />
+      <TextBlock Text="Ask about rooms, levels, doors, and windows"
+                 FontSize="11"
+                 Foreground="#666666"
+                 Margin="0,2,0,0" />
+    </StackPanel>
 
     <ListBox Grid.Row="1"
              x:Name="MessageList"

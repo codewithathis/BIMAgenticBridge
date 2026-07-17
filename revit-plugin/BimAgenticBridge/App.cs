@@ -29,7 +29,7 @@ namespace BimAgenticBridge
 
                 application.RegisterDockablePane(
                     new DockablePaneId(DockablePaneGuid),
-                    "BimAgenticBridge Chat",
+                    AppInfo.DockablePaneTitle,
                     _chatPanel);
 
                 CreateRibbon(application);
@@ -37,7 +37,7 @@ namespace BimAgenticBridge
             }
             catch (Exception ex)
             {
-                TaskDialog.Show("BimAgenticBridge", "Startup failed: " + ex.Message);
+                TaskDialog.Show(AppInfo.ProductName, "Startup failed: " + ex.Message);
                 return Result.Failed;
             }
         }
@@ -50,30 +50,29 @@ namespace BimAgenticBridge
 
         private static void CreateRibbon(UIControlledApplication application)
         {
-            const string tabName = "BimAgenticBridge";
             try
             {
-                application.CreateRibbonTab(tabName);
+                application.CreateRibbonTab(AppInfo.RibbonTabName);
             }
             catch (Autodesk.Revit.Exceptions.ArgumentException)
             {
                 // Tab already exists.
             }
 
-            RibbonPanel panel = application.CreateRibbonPanel(tabName, "Chat");
+            RibbonPanel panel = application.CreateRibbonPanel(AppInfo.RibbonTabName, AppInfo.RibbonPanelName);
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
 
             var buttonData = new PushButtonData(
                 "ShowBimAgenticChat",
-                "Chat",
+                AppInfo.RibbonButtonName,
                 assemblyPath,
                 "BimAgenticBridge.Commands.ShowChatCommand");
 
             PushButton button = panel.AddItem(buttonData) as PushButton;
             if (button != null)
             {
-                button.ToolTip = "Show or hide the BimAgenticBridge chat panel.";
-                button.LongDescription = "Opens the dockable chat interface for AI BIM assessment.";
+                button.ToolTip = AppInfo.RibbonButtonTooltip;
+                button.LongDescription = AppInfo.RibbonButtonDescription;
             }
         }
     }

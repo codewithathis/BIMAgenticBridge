@@ -16,7 +16,7 @@ namespace BimAgenticBridge.Commands
                 DockablePane pane = commandData.Application.GetDockablePane(paneId);
                 if (pane == null)
                 {
-                    message = "BimAgenticBridge chat pane is not registered.";
+                    message = "BIM Agentic Bridge chat pane is not registered.";
                     return Result.Failed;
                 }
 

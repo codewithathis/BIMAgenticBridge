@@ -52,7 +52,7 @@ Health check: `GET http://127.0.0.1:8000/health`
 4. Copy `revit-plugin/BimAgenticBridge.addin` to `%AppData%\Autodesk\Revit\Addins\2027\`
 5. Edit `<Assembly>` in the `.addin` file to your built `BimAgenticBridge.dll` path
 6. Ensure `Newtonsoft.Json.dll` sits next to the plugin DLL
-7. Start Revit 2027 → ribbon tab **BimAgenticBridge** → **Chat**
+7. Start Revit 2027 → ribbon tab **BIM Agentic** → **AI Chat**
 
 ## Chat API contract
 
@@ -74,8 +74,8 @@ Use this checklist before submission.
 ### A. Plugin load
 
 1. Place `.addin` + build output; start Revit 2027
-2. Confirm no add-in error dialog; ribbon button **BimAgenticBridge** appears
-3. Click **Chat** → dockable chat panel opens
+2. Confirm no add-in error dialog; ribbon tab **BIM Agentic** with **AI Chat** appears
+3. Click **AI Chat** → dockable panel **BIM Agentic Bridge** opens
 
 ### B. Extraction only
 
