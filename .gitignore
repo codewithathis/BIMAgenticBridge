@@ -1,0 +1,28 @@
+# Build
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.cache
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+dist/
+build/
+
+# Runtime data
+data/data.json
+
+# IDE / OS
+.idea/
+*.swp
+Thumbs.db
+Desktop.ini
