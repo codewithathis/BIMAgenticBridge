@@ -29,12 +29,27 @@ dotnet build -p:RevitInstallPath="C:\Path\To\Revit 2027"
 
 ## Build
 
+**Close Revit before building.** While Revit is open it locks `bin\Debug\BimAgenticBridge.dll` and the build fails with MSB3027 / MSB3021.
+
+From the repo root (recommended):
+
 ```powershell
-cd revit-plugin
-& "C:\Program Files\dotnet\dotnet.exe" build BimAgenticBridge.sln -c Debug
+powershell -ExecutionPolicy Bypass -File .\scripts\build-plugin.ps1
 ```
 
-Or open `BimAgenticBridge.sln` in Visual Studio and build (after the PATH/`DOTNET_ROOT` fix above).
+Or manually:
+
+```powershell
+# 1) Close Autodesk Revit completely
+# 2) Build
+cd revit-plugin
+& "C:\Program Files\dotnet\dotnet.exe" build BimAgenticBridge.sln -c Debug
+# 3) Re-install add-in (optional if Assembly path already points at bin\Debug)
+cd ..
+powershell -ExecutionPolicy Bypass -File .\scripts\install-addin.ps1
+```
+
+Or open `BimAgenticBridge.sln` in Visual Studio and build (after the PATH/`DOTNET_ROOT` fix above) — still close Revit first.
 
 ## Install the add-in
 

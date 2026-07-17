@@ -12,11 +12,13 @@
     <Authors>Athis J</Authors>
     <Company>Athis J</Company>
     <Product>BIM Agentic Bridge</Product>
-    <Description>AI-powered BIM room assessment bridge for Autodesk Revit. Author: Athis J — https://github.com/codewithathis</Description>
-    <Copyright>Copyright © Athis J 2026</Copyright>
+    <Description>AI-powered BIM room assessment bridge for Autodesk Revit. Author: Athis J - https://github.com/codewithathis</Description>
+    <Copyright>Copyright (c) Athis J 2026</Copyright>
     <PackageProjectUrl>https://github.com/codewithathis</PackageProjectUrl>
     <RepositoryUrl>https://github.com/codewithathis</RepositoryUrl>
     <Version>1.0.0</Version>
+    <!-- RevitAPI brings older assembly versions; suppress noisy binding redirects at compile time. -->
+    <NoWarn>$(NoWarn);MSB3277</NoWarn>
     <RevitInstallPath Condition="'$(RevitInstallPath)' == ''">D:\Development\Autodesk\Revit 2027</RevitInstallPath>
   </PropertyGroup>
 
@@ -34,4 +36,11 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+  <!-- Revit locks the output DLL while running; fail fast with a clear message. -->
+  <Target Name="EnsureRevitIsNotLockingOutput" BeforeTargets="BeforeBuild">
+    <Exec
+      Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;if (Get-Process -Name 'Revit' -ErrorAction SilentlyContinue) { Write-Host 'ERROR: Autodesk Revit is running and locks BimAgenticBridge.dll. Close Revit, then rebuild.' -ForegroundColor Red; exit 1 }&quot;"
+      IgnoreExitCode="false" />
+  </Target>
 </Project>
