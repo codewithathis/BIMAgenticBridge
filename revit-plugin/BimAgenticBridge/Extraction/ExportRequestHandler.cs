@@ -33,8 +33,8 @@ namespace BimAgenticBridge.Extraction
                     return;
                 }
 
-                var rooms = _extractor.Extract(doc);
-                LastExportPath = _jsonExport.Export(doc, rooms);
+                ModelSnapshot snapshot = _extractor.Extract(doc);
+                LastExportPath = _jsonExport.Export(doc, snapshot);
                 LastSucceeded = true;
             }
             catch (Exception ex)

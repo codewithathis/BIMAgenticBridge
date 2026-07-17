@@ -7,17 +7,68 @@ using Autodesk.Revit.DB.Architecture;
 namespace BimAgenticBridge.Extraction
 {
     /// <summary>
-    /// Extracts room Name, Number, Level, Area and door/window counts via FilteredElementCollector.
+    /// Extracts rooms, levels, and door/window counts from the host document and loaded links.
     /// </summary>
     public sealed class RoomExtractor
     {
-        public List<RoomData> Extract(Document doc)
+        public ModelSnapshot Extract(Document doc)
         {
             if (doc == null)
             {
                 throw new ArgumentNullException(nameof(doc));
             }
 
+            var snapshot = new ModelSnapshot();
+            string hostTitle = string.IsNullOrWhiteSpace(doc.Title) ? "Host" : doc.Title;
+            snapshot.SourceDocuments.Add(hostTitle);
+
+            CollectLevels(doc, hostTitle, snapshot.Levels);
+            CollectRooms(doc, hostTitle, snapshot.Rooms);
+
+            var links = new FilteredElementCollector(doc)
+                .OfClass(typeof(RevitLinkInstance))
+                .Cast<RevitLinkInstance>()
+                .ToList();
+
+            foreach (RevitLinkInstance linkInstance in links)
+            {
+                Document linkDoc = linkInstance.GetLinkDocument();
+                if (linkDoc == null)
+                {
+                    continue;
+                }
+
+                string linkTitle = string.IsNullOrWhiteSpace(linkDoc.Title)
+                    ? linkInstance.Name
+                    : linkDoc.Title;
+
+                if (!snapshot.SourceDocuments.Contains(linkTitle))
+                {
+                    snapshot.SourceDocuments.Add(linkTitle);
+                }
+
+                CollectLevels(linkDoc, linkTitle, snapshot.Levels);
+                CollectRooms(linkDoc, linkTitle, snapshot.Rooms);
+            }
+
+            return snapshot;
+        }
+
+        private static void CollectLevels(Document doc, string sourceDocument, ICollection<LevelData> levels)
+        {
+            foreach (Level level in new FilteredElementCollector(doc).OfClass(typeof(Level)).Cast<Level>())
+            {
+                levels.Add(new LevelData
+                {
+                    Name = level.Name ?? string.Empty,
+                    Elevation = UnitUtils.ConvertFromInternalUnits(level.Elevation, UnitTypeId.Meters),
+                    SourceDocument = sourceDocument
+                });
+            }
+        }
+
+        private static void CollectRooms(Document doc, string sourceDocument, ICollection<RoomData> rooms)
+        {
             var roomsById = new Dictionary<ElementId, RoomData>();
             var roomElements = new FilteredElementCollector(doc)
                 .OfCategory(BuiltInCategory.OST_Rooms)
@@ -32,20 +83,17 @@ namespace BimAgenticBridge.Extraction
                     continue;
                 }
 
-                string levelName = string.Empty;
-                if (room.Level != null)
-                {
-                    levelName = room.Level.Name;
-                }
+                string levelName = room.Level != null ? room.Level.Name : string.Empty;
 
                 roomsById[room.Id] = new RoomData
                 {
                     Name = room.get_Parameter(BuiltInParameter.ROOM_NAME)?.AsString() ?? room.Name ?? string.Empty,
                     Number = room.Number ?? string.Empty,
                     Level = levelName,
-                    Area = UnitUtils.ConvertFromInternalUnits(room.Area, UnitTypeId.SquareMeters),
+                    Area = Math.Round(UnitUtils.ConvertFromInternalUnits(room.Area, UnitTypeId.SquareMeters), 2),
                     DoorCount = 0,
-                    WindowCount = 0
+                    WindowCount = 0,
+                    SourceDocument = sourceDocument
                 };
             }
 
@@ -53,15 +101,18 @@ namespace BimAgenticBridge.Extraction
             CountHostedOpenings(doc, BuiltInCategory.OST_Doors, roomsById, phase, isDoor: true);
             CountHostedOpenings(doc, BuiltInCategory.OST_Windows, roomsById, phase, isDoor: false);
 
-            return new List<RoomData>(roomsById.Values);
+            foreach (RoomData room in roomsById.Values)
+            {
+                rooms.Add(room);
+            }
         }
 
         private static Phase ResolvePhase(Document doc)
         {
             View activeView = doc.ActiveView;
             Parameter viewPhaseParam = activeView?.get_Parameter(BuiltInParameter.VIEW_PHASE);
-            ElementId phaseId = viewPhaseParam?.AsElementId();
-            if (phaseId != null && phaseId != ElementId.InvalidElementId)
+            ElementId phaseId = viewPhaseParam?.AsElementId() ?? ElementId.InvalidElementId;
+            if (phaseId != ElementId.InvalidElementId)
             {
                 return doc.GetElement(phaseId) as Phase;
             }

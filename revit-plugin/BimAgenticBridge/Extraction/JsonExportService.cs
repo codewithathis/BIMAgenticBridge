@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace BimAgenticBridge.Extraction
 {
     /// <summary>
-    /// Serializes extracted room data to data.json using an atomic write.
+    /// Serializes extracted model data to data.json using an atomic write.
     /// </summary>
     public sealed class JsonExportService
     {
@@ -22,16 +22,16 @@ namespace BimAgenticBridge.Extraction
         // Encoding.UTF8 writes a BOM by default; Python json rejects that unless utf-8-sig is used.
         private static readonly Encoding Utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
-        public string Export(Document doc, IList<RoomData> rooms, string outputPath = null)
+        public string Export(Document doc, ModelSnapshot snapshot, string outputPath = null)
         {
             if (doc == null)
             {
                 throw new ArgumentNullException(nameof(doc));
             }
 
-            if (rooms == null)
+            if (snapshot == null)
             {
-                throw new ArgumentNullException(nameof(rooms));
+                throw new ArgumentNullException(nameof(snapshot));
             }
 
             string path = string.IsNullOrWhiteSpace(outputPath)
@@ -40,11 +40,24 @@ namespace BimAgenticBridge.Extraction
 
             PathConfig.EnsureDataDirectory();
 
+            var notes = new List<string>();
+            if (snapshot.Rooms.Count == 0)
+            {
+                notes.Add(
+                    "No rooms were found in the host model or loaded links. " +
+                    "Rooms are usually in an Architectural model — open or link " +
+                    "'Snowdon Towers Sample Architectural.rvt' and extract again.");
+            }
+
             var payload = new RoomExportDocument
             {
                 ExportedAtUtc = DateTime.UtcNow,
                 DocumentTitle = string.IsNullOrWhiteSpace(doc.Title) ? "Untitled" : doc.Title,
-                Rooms = new List<RoomData>(rooms)
+                SourceDocuments = new List<string>(snapshot.SourceDocuments),
+                Levels = new List<LevelData>(snapshot.Levels),
+                RoomCount = snapshot.Rooms.Count,
+                Rooms = new List<RoomData>(snapshot.Rooms),
+                Notes = notes
             };
 
             string json = JsonConvert.SerializeObject(payload, SerializerSettings);

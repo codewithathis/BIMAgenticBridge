@@ -1,6 +1,13 @@
 {
   "exportedAtUtc": "2026-07-17T06:30:00Z",
   "documentTitle": "Sample.rvt",
+  "sourceDocuments": ["Sample.rvt"],
+  "levels": [
+    { "name": "Level 1", "elevation": 0.0, "sourceDocument": "Sample.rvt" },
+    { "name": "Level 2", "elevation": 3.5, "sourceDocument": "Sample.rvt" }
+  ],
+  "roomCount": 3,
+  "notes": [],
   "rooms": [
     {
       "name": "Office",
@@ -8,7 +15,8 @@
       "level": "Level 1",
       "area": 25.5,
       "doorCount": 2,
-      "windowCount": 1
+      "windowCount": 1,
+      "sourceDocument": "Sample.rvt"
     },
     {
       "name": "Meeting",
@@ -16,7 +24,8 @@
       "level": "Level 1",
       "area": 40.0,
       "doorCount": 1,
-      "windowCount": 2
+      "windowCount": 2,
+      "sourceDocument": "Sample.rvt"
     },
     {
       "name": "Storage",
@@ -24,7 +33,8 @@
       "level": "Level 2",
       "area": 12.25,
       "doorCount": 1,
-      "windowCount": 0
+      "windowCount": 0,
+      "sourceDocument": "Sample.rvt"
     }
   ]
 }

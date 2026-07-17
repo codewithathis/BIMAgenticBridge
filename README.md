@@ -79,9 +79,10 @@ Use this checklist before submission.
 
 ### B. Extraction only
 
-1. Open a model with several rooms, doors, and windows
+1. Open an **Architectural** model with rooms (for Snowdon samples use  
+   `...\Revit 2027\Samples\Snowdon Towers Sample Architectural.rvt` — not the Structural file)
 2. Ask a room question so the backend returns `extraction_required` (or delete `data.json` first)
-3. Confirm `%LOCALAPPDATA%\BimAgenticBridge\data.json` is created
+3. Confirm `%LOCALAPPDATA%\BimAgenticBridge\data.json` is created and `roomCount` is greater than 0
 4. Spot-check one room: Name, Number, Level, Area, door/window counts vs Revit
 
 ### C. Backend without Revit

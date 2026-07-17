@@ -8,6 +8,8 @@ def test_query_all_rooms(sample_rooms_path: Path) -> None:
     result = query_room_data(sample_rooms_path)
     assert result["matchCount"] == 3
     assert result["documentTitle"] == "Sample.rvt"
+    assert result["levelCount"] == 2
+    assert result["roomCountTotal"] == 3
 
 
 def test_query_filter_by_room_number(sample_rooms_path: Path) -> None:

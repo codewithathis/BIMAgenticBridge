@@ -84,11 +84,19 @@ def query_room_data(
         needle = level.strip().lower()
         filtered = [r for r in filtered if str(r.get("level", "")).strip().lower() == needle]
 
+    levels = payload.get("levels") or []
+    notes = payload.get("notes") or []
+
     return {
         "documentTitle": payload.get("documentTitle"),
         "exportedAtUtc": payload.get("exportedAtUtc"),
+        "sourceDocuments": payload.get("sourceDocuments") or [],
+        "roomCountTotal": payload.get("roomCount", len(payload.get("rooms") or [])),
+        "levelCount": len(levels),
+        "levels": levels,
         "matchCount": len(filtered),
         "rooms": filtered,
+        "notes": notes,
     }
 
 
@@ -97,8 +105,10 @@ QUERY_ROOM_DATA_TOOL = {
     "function": {
         "name": "query_room_data",
         "description": (
-            "Query extracted BIM room data from the local Revit export. "
-            "Use this for questions about rooms, areas, levels, doors, or windows."
+            "Query extracted BIM data from the local Revit export. "
+            "Returns rooms (with door/window counts), levels, source documents, and notes. "
+            "Use for questions about rooms, areas, levels, floors, doors, or windows. "
+            "If rooms are empty, explain notes (often a structural model without rooms)."
         ),
         "parameters": {
             "type": "object",
