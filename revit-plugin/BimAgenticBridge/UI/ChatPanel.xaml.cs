@@ -17,8 +17,15 @@ namespace BimAgenticBridge.UI
 
         public void Initialize(ChatApiClient apiClient, ExportRequestHandler exportHandler, ExternalEvent exportEvent)
         {
+            if (_viewModel != null)
+            {
+                _viewModel.MessagesChanged -= OnMessagesChanged;
+            }
+
             _viewModel = new ChatViewModel(apiClient, exportHandler, exportEvent);
+            _viewModel.MessagesChanged += OnMessagesChanged;
             DataContext = _viewModel;
+            ScrollToEnd();
         }
 
         public void SetupDockablePane(DockablePaneProviderData data)
@@ -37,6 +44,22 @@ namespace BimAgenticBridge.UI
                 _viewModel.SendCommand.Execute(null);
                 e.Handled = true;
             }
+        }
+
+        private void OnMessagesChanged()
+        {
+            Dispatcher.InvokeAsync(ScrollToEnd);
+        }
+
+        private void ScrollToEnd()
+        {
+            if (MessageScroller == null)
+            {
+                return;
+            }
+
+            MessageScroller.UpdateLayout();
+            MessageScroller.ScrollToEnd();
         }
     }
 }

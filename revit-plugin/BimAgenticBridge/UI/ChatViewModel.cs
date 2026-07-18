@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -46,8 +47,9 @@ namespace BimAgenticBridge.UI
         private readonly ExternalEvent _exportEvent;
         private readonly object _exportLock = new object();
 
-        private string _inputText;
+        private string _inputText = string.Empty;
         private bool _isBusy;
+        private string _statusText = string.Empty;
         private TaskCompletionSource<bool> _exportTcs;
 
         public ChatViewModel(ChatApiClient apiClient, ExportRequestHandler exportHandler, ExternalEvent exportEvent)
@@ -57,12 +59,23 @@ namespace BimAgenticBridge.UI
             _exportEvent = exportEvent ?? throw new ArgumentNullException(nameof(exportEvent));
 
             Messages = new ObservableCollection<ChatMessage>();
+            Messages.CollectionChanged += OnMessagesChanged;
             SendCommand = new RelayCommand(() => _ = SendAsync(), () => !IsBusy && !string.IsNullOrWhiteSpace(InputText));
+
+            Messages.Add(new ChatMessage(
+                ChatRole.Assistant,
+                "Hi — I can answer questions about rooms, levels, doors, and windows in the active Revit model. Try: “How many rooms are on Level 1?”"));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action MessagesChanged;
 
         public ObservableCollection<ChatMessage> Messages { get; }
+
+        public string ProductName => AppInfo.PanelHeader;
+        public string Subtitle => AppInfo.PanelSubtitle;
+        public string Credit => AppInfo.PanelCredit;
+        public string AuthorGitHubUrl => AppInfo.AuthorGitHubUrl;
 
         public string InputText
         {
@@ -74,7 +87,7 @@ namespace BimAgenticBridge.UI
                     return;
                 }
 
-                _inputText = value;
+                _inputText = value ?? string.Empty;
                 OnPropertyChanged();
                 ((RelayCommand)SendCommand).RaiseCanExecuteChanged();
             }
@@ -92,9 +105,30 @@ namespace BimAgenticBridge.UI
 
                 _isBusy = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(ShowEmptyState));
                 ((RelayCommand)SendCommand).RaiseCanExecuteChanged();
             }
         }
+
+        public string StatusText
+        {
+            get => _statusText;
+            private set
+            {
+                if (_statusText == value)
+                {
+                    return;
+                }
+
+                _statusText = value ?? string.Empty;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasStatus));
+            }
+        }
+
+        public bool HasStatus => !string.IsNullOrWhiteSpace(StatusText);
+
+        public bool ShowEmptyState => Messages.Count == 0 && !IsBusy;
 
         public ICommand SendCommand { get; }
 
@@ -107,53 +141,68 @@ namespace BimAgenticBridge.UI
             }
 
             IsBusy = true;
+            StatusText = "Sending…";
             InputText = string.Empty;
-            Messages.Add(new ChatMessage("You", message));
+            Messages.Add(new ChatMessage(ChatRole.User, message));
 
             try
             {
+                StatusText = "Waiting for AI agent…";
                 ChatResponse response = await _apiClient.PostChatAsync(message).ConfigureAwait(true);
 
                 if (string.Equals(response.Status, "extraction_required", StringComparison.OrdinalIgnoreCase))
                 {
-                    Messages.Add(new ChatMessage("System", "Refreshing room data from Revit..."));
+                    Messages.Add(new ChatMessage(ChatRole.System, "Refreshing room data from Revit…"));
+                    StatusText = "Extracting rooms from Revit…";
                     bool exported = await RequestExportAsync().ConfigureAwait(true);
                     if (!exported)
                     {
-                        Messages.Add(new ChatMessage("System", _exportHandler.LastError ?? "Extraction failed."));
+                        Messages.Add(new ChatMessage(
+                            ChatRole.Error,
+                            _exportHandler.LastError ?? "Extraction failed."));
                         return;
                     }
 
                     Messages.Add(new ChatMessage(
-                        "System",
-                        "Exported to " + (_exportHandler.LastExportPath ?? PathConfig.DataJsonPath)));
+                        ChatRole.System,
+                        "Model data updated."));
 
+                    StatusText = "Analyzing exported data…";
                     response = await _apiClient.PostChatAsync(message, dataReady: true).ConfigureAwait(true);
                 }
 
                 if (string.Equals(response.Status, "ok", StringComparison.OrdinalIgnoreCase))
                 {
-                    Messages.Add(new ChatMessage("Assistant", response.Reply ?? "(empty reply)"));
+                    Messages.Add(new ChatMessage(ChatRole.Assistant, response.Reply ?? "(empty reply)"));
                 }
                 else if (string.Equals(response.Status, "extraction_required", StringComparison.OrdinalIgnoreCase))
                 {
                     Messages.Add(new ChatMessage(
-                        "System",
+                        ChatRole.Error,
                         response.Reason ?? "Backend still requires extraction. Check the data path and try again."));
                 }
                 else
                 {
-                    Messages.Add(new ChatMessage("System", response.Reply ?? response.Reason ?? "Unexpected response."));
+                    Messages.Add(new ChatMessage(
+                        ChatRole.Error,
+                        response.Reply ?? response.Reason ?? "Unexpected response."));
                 }
             }
             catch (Exception ex)
             {
-                Messages.Add(new ChatMessage("System", $"Error: {ex.Message}"));
+                Messages.Add(new ChatMessage(ChatRole.Error, ex.Message));
             }
             finally
             {
+                StatusText = string.Empty;
                 IsBusy = false;
             }
+        }
+
+        private void OnMessagesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(ShowEmptyState));
+            MessagesChanged?.Invoke();
         }
 
         private Task<bool> RequestExportAsync()

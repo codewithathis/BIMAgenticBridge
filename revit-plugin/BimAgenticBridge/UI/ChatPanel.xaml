@@ -1,8 +1,144 @@
 <Page x:Class="BimAgenticBridge.UI.ChatPanel"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Background="#F7F7F7">
-  <Grid Margin="12">
+      xmlns:local="clr-namespace:BimAgenticBridge.UI"
+      Background="#EEF2F5">
+
+  <Page.Resources>
+    <local:BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <local:InverseBooleanConverter x:Key="InverseBool" />
+    <local:NullOrEmptyToVisibilityConverter x:Key="EmptyToVis" />
+
+    <Style x:Key="SendButtonStyle" TargetType="Button">
+      <Setter Property="Foreground" Value="#FFFFFF" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Root"
+                    Background="#0F6E6A"
+                    CornerRadius="8"
+                    Padding="{TemplateBinding Padding}">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Root" Property="Background" Value="#0C5A57" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Root" Property="Background" Value="#9BB8B6" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <DataTemplate DataType="{x:Type local:ChatMessage}">
+      <Grid Margin="0,0,0,10">
+        <Grid.Style>
+          <Style TargetType="Grid">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="MaxWidth" Value="340" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding IsUser}" Value="True">
+                <Setter Property="HorizontalAlignment" Value="Right" />
+              </DataTrigger>
+              <DataTrigger Binding="{Binding IsSystem}" Value="True">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="MaxWidth" Value="360" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Grid.Style>
+
+        <Border Padding="12,10">
+          <Border.Style>
+            <Style TargetType="Border">
+              <Setter Property="Background" Value="#FFFFFF" />
+              <Setter Property="BorderBrush" Value="#D7DEE5" />
+              <Setter Property="BorderThickness" Value="1" />
+              <Setter Property="CornerRadius" Value="12,12,12,4" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding IsUser}" Value="True">
+                  <Setter Property="Background" Value="#0F6E6A" />
+                  <Setter Property="BorderBrush" Value="#0F6E6A" />
+                  <Setter Property="CornerRadius" Value="12,12,4,12" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Role}" Value="{x:Static local:ChatRole.System}">
+                  <Setter Property="Background" Value="#E8F1F8" />
+                  <Setter Property="BorderBrush" Value="#C5D7E8" />
+                  <Setter Property="CornerRadius" Value="10" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Role}" Value="{x:Static local:ChatRole.Error}">
+                  <Setter Property="Background" Value="#FDECEC" />
+                  <Setter Property="BorderBrush" Value="#F0B4B4" />
+                  <Setter Property="CornerRadius" Value="10" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Border.Style>
+
+          <StackPanel>
+            <TextBlock Text="{Binding RoleLabel}" FontSize="10" FontWeight="SemiBold" Margin="0,0,0,3">
+              <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                  <Setter Property="Foreground" Value="#5C6B73" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsUser}" Value="True">
+                      <Setter Property="Foreground" Value="#D7F0EE" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Role}" Value="{x:Static local:ChatRole.Error}">
+                      <Setter Property="Foreground" Value="#A12622" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBlock.Style>
+            </TextBlock>
+
+            <TextBlock Text="{Binding Text}"
+                       FontSize="12.5"
+                       TextWrapping="Wrap"
+                       LineHeight="18">
+              <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                  <Setter Property="Foreground" Value="#1F2A30" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsUser}" Value="True">
+                      <Setter Property="Foreground" Value="#FFFFFF" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Role}" Value="{x:Static local:ChatRole.Error}">
+                      <Setter Property="Foreground" Value="#7A1F1C" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBlock.Style>
+            </TextBlock>
+
+            <TextBlock Text="{Binding TimeLabel}"
+                       FontSize="9"
+                       Margin="0,4,0,0"
+                       HorizontalAlignment="Right">
+              <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                  <Setter Property="Foreground" Value="#8A94A0" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsUser}" Value="True">
+                      <Setter Property="Foreground" Value="#B7DFDC" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBlock.Style>
+            </TextBlock>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </DataTemplate>
+  </Page.Resources>
+
+  <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
@@ -10,51 +146,119 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <StackPanel Grid.Row="0" Margin="0,0,0,8">
-      <TextBlock Text="BIM Agentic Bridge"
-                 FontSize="16"
-                 FontWeight="SemiBold" />
-      <TextBlock Text="Ask about rooms, levels, doors, and windows"
-                 FontSize="11"
-                 Foreground="#666666"
-                 Margin="0,2,0,0" />
-    </StackPanel>
+    <Border Grid.Row="0" Background="#143B44" Padding="14,12">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-    <ListBox Grid.Row="1"
-             x:Name="MessageList"
-             ItemsSource="{Binding Messages}"
-             DisplayMemberPath="DisplayText"
-             BorderBrush="#CCCCCC"
-             BorderThickness="1"
-             Background="White"
-             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-             ScrollViewer.VerticalScrollBarVisibility="Auto" />
+        <StackPanel>
+          <TextBlock Text="{Binding ProductName}"
+                     Foreground="#FFFFFF"
+                     FontSize="15"
+                     FontWeight="SemiBold" />
+          <TextBlock Text="{Binding Subtitle}"
+                     Foreground="#A9C4C8"
+                     FontSize="11"
+                     Margin="0,3,0,0"
+                     TextWrapping="Wrap" />
+        </StackPanel>
 
-    <Grid Grid.Row="2" Margin="0,8,0,0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
+        <Border Grid.Column="1"
+                VerticalAlignment="Top"
+                Background="#1F5560"
+                CornerRadius="10"
+                Padding="8,4"
+                Margin="8,0,0,0"
+                Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
+          <TextBlock Text="Working"
+                     Foreground="#D7F0EE"
+                     FontSize="10"
+                     FontWeight="SemiBold" />
+        </Border>
+      </Grid>
+    </Border>
 
-      <TextBox Grid.Column="0"
-               Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}"
-               Height="28"
-               VerticalContentAlignment="Center"
-               KeyDown="InputBox_KeyDown" />
-
-      <Button Grid.Column="1"
-              Content="Send"
-              Width="72"
-              Margin="8,0,0,0"
-              Height="28"
-              Command="{Binding SendCommand}" />
+    <Grid Grid.Row="1" Margin="10,10,10,0">
+      <Border Background="#F7FAFB"
+              BorderBrush="#D7DEE5"
+              BorderThickness="1"
+              CornerRadius="10">
+        <ScrollViewer x:Name="MessageScroller"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      Padding="12">
+          <ItemsControl x:Name="MessageList" ItemsSource="{Binding Messages}" />
+        </ScrollViewer>
+      </Border>
     </Grid>
 
+    <Border Grid.Row="2"
+            Margin="10,10,10,0"
+            Background="#FFFFFF"
+            BorderBrush="#D7DEE5"
+            BorderThickness="1"
+            CornerRadius="12"
+            Padding="8">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+          <TextBox x:Name="InputBox"
+                   Text="{Binding InputText, UpdateSourceTrigger=PropertyChanged}"
+                   AcceptsReturn="False"
+                   TextWrapping="Wrap"
+                   MinHeight="36"
+                   MaxHeight="90"
+                   VerticalContentAlignment="Center"
+                   BorderThickness="0"
+                   Background="Transparent"
+                   Padding="6,8"
+                   FontSize="12.5"
+                   IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBool}}"
+                   KeyDown="InputBox_KeyDown" />
+
+          <TextBlock Text="Ask a question…  (Enter to send)"
+                     Margin="8,0,0,0"
+                     VerticalAlignment="Center"
+                     Foreground="#9AA5AF"
+                     FontSize="12.5"
+                     IsHitTestVisible="False"
+                     Visibility="{Binding InputText, Converter={StaticResource EmptyToVis}}" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="2,6,2,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <TextBlock VerticalAlignment="Center"
+                     FontSize="10.5"
+                     Foreground="#6E7C86"
+                     Text="{Binding StatusText}"
+                     Visibility="{Binding HasStatus, Converter={StaticResource BoolToVis}}" />
+
+          <Button Grid.Column="1"
+                  Content="Send"
+                  MinWidth="76"
+                  Height="30"
+                  Padding="14,0"
+                  Style="{StaticResource SendButtonStyle}"
+                  Command="{Binding SendCommand}" />
+        </Grid>
+      </Grid>
+    </Border>
+
     <TextBlock Grid.Row="3"
-               Margin="0,8,0,0"
+               Margin="14,8,14,10"
                FontSize="10"
-               Foreground="#888888"
-               Text="by Athis J · github.com/codewithathis"
-               ToolTip="https://github.com/codewithathis" />
+               Foreground="#8A94A0"
+               Text="{Binding Credit}"
+               ToolTip="{Binding AuthorGitHubUrl}" />
   </Grid>
 </Page>
