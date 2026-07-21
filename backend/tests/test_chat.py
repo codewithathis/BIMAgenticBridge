@@ -5,10 +5,11 @@ from unittest.mock import MagicMock
 
 import pytest
 from fastapi.testclient import TestClient
-
 from app.agent import ChatAgent
 from app.config import Settings
+from app.exceptions import AgentConfigurationError, UpstreamLlmError
 from app.main import app
+from app.routers import chat as chat_router
 
 
 class FakeCompletions:
@@ -95,16 +96,53 @@ def test_agent_queries_rooms_when_data_ready(sample_rooms_path: Path) -> None:
     assert fake.calls == 2
 
 
-def test_chat_endpoint_missing_api_key(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("OPENAI_API_KEY", "")
-    from app.config import get_settings
+def test_agent_missing_api_key_raises_configuration_error() -> None:
+    settings = Settings(openai_api_key="", data_ttl_seconds=300)
+    agent = ChatAgent(settings)
+    with pytest.raises(AgentConfigurationError):
+        agent.handle_chat("Hello")
 
-    get_settings.cache_clear()
-    client = TestClient(app)
-    # Force settings reload without key
-    monkeypatch.setattr(
-        "app.routers.chat.get_settings",
-        lambda: Settings(openai_api_key="", data_ttl_seconds=300),
+
+def test_chat_endpoint_missing_api_key() -> None:
+    app.dependency_overrides[chat_router.get_agent] = lambda: ChatAgent(
+        Settings(openai_api_key="", data_ttl_seconds=300)
     )
-    response = client.post("/chat", json={"message": "Hello"})
-    assert response.status_code == 503
+    try:
+        client = TestClient(app)
+        response = client.post("/chat", json={"message": "Hello"})
+        assert response.status_code == 503
+        assert "OPENAI_API_KEY" in response.json()["detail"]
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_chat_endpoint_upstream_llm_error() -> None:
+    class FailingAgent:
+        def handle_chat(self, **kwargs: Any) -> None:
+            raise UpstreamLlmError("provider down")
+
+    app.dependency_overrides[chat_router.get_agent] = lambda: FailingAgent()
+    try:
+        client = TestClient(app)
+        response = client.post("/chat", json={"message": "Hello"})
+        assert response.status_code == 502
+        assert "language model" in response.json()["detail"].lower()
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_chat_endpoint_unhandled_error_hides_internals() -> None:
+    class ExplodingAgent:
+        def handle_chat(self, **kwargs: Any) -> None:
+            raise RuntimeError("secret internal detail")
+
+    app.dependency_overrides[chat_router.get_agent] = lambda: ExplodingAgent()
+    try:
+        client = TestClient(app)
+        response = client.post("/chat", json={"message": "Hello"})
+        assert response.status_code == 500
+        detail = response.json()["detail"]
+        assert "secret internal detail" not in detail
+        assert "unexpected error" in detail.lower()
+    finally:
+        app.dependency_overrides.clear()

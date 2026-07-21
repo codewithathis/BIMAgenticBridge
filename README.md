@@ -94,7 +94,9 @@ Revit WPF Chat  →  POST /chat  →  OpenAI tools agent
   FilteredElementCollector → %LOCALAPPDATA%\BimAgenticBridge\data.json
 ```
 
-When the agent needs room data and the JSON is missing or stale, it returns `extraction_required`. The plugin extracts on the Revit API thread, writes `data.json`, and retries with `data_ready: true`.
+When the agent needs room data and the JSON is missing or stale, it returns `extraction_required`. The plugin extracts on the Revit API thread (45s timeout), writes `data.json`, and retries with `data_ready: true`.
+
+Backend agent collaborators: `DataReadinessPolicy`, `ToolExecutor`, and `ToolLoop` (orchestrated by `ChatAgent`).
 
 ## Repository layout
 

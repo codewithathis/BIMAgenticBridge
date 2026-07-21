@@ -42,6 +42,11 @@ namespace BimAgenticBridge.UI
 
     public sealed class ChatViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Max wait for Revit to schedule/run the ExternalEvent export.
+        /// </summary>
+        public static readonly TimeSpan ExportTimeout = TimeSpan.FromSeconds(45);
+
         private readonly ChatApiClient _apiClient;
         private readonly ExportRequestHandler _exportHandler;
         private readonly ExternalEvent _exportEvent;
@@ -154,8 +159,18 @@ namespace BimAgenticBridge.UI
                 {
                     Messages.Add(new ChatMessage(ChatRole.System, "Refreshing room data from Revit…"));
                     StatusText = "Extracting rooms from Revit…";
-                    bool exported = await RequestExportAsync().ConfigureAwait(true);
-                    if (!exported)
+
+                    ExportWaitResult exportResult = await RequestExportAsync(ExportTimeout).ConfigureAwait(true);
+                    if (exportResult == ExportWaitResult.TimedOut)
+                    {
+                        Messages.Add(new ChatMessage(
+                            ChatRole.Error,
+                            $"Extraction timed out after {(int)ExportTimeout.TotalSeconds}s. "
+                            + "Return to Revit (close dialogs) and try again."));
+                        return;
+                    }
+
+                    if (exportResult == ExportWaitResult.Failed)
                     {
                         Messages.Add(new ChatMessage(
                             ChatRole.Error,
@@ -181,6 +196,12 @@ namespace BimAgenticBridge.UI
                         ChatRole.Error,
                         response.Reason ?? "Backend still requires extraction. Check the data path and try again."));
                 }
+                else if (string.Equals(response.Status, "error", StringComparison.OrdinalIgnoreCase))
+                {
+                    Messages.Add(new ChatMessage(
+                        ChatRole.Error,
+                        response.Reason ?? response.Reply ?? "The chat service returned an error."));
+                }
                 else
                 {
                     Messages.Add(new ChatMessage(
@@ -205,11 +226,13 @@ namespace BimAgenticBridge.UI
             MessagesChanged?.Invoke();
         }
 
-        private Task<bool> RequestExportAsync()
+        private async Task<ExportWaitResult> RequestExportAsync(TimeSpan timeout)
         {
+            TaskCompletionSource<bool> tcs;
             lock (_exportLock)
             {
                 _exportTcs = new TaskCompletionSource<bool>();
+                tcs = _exportTcs;
                 _exportHandler.OnCompleted = () =>
                 {
                     lock (_exportLock)
@@ -220,12 +243,38 @@ namespace BimAgenticBridge.UI
             }
 
             _exportEvent.Raise();
-            return _exportTcs.Task;
+
+            Task completed = await Task.WhenAny(tcs.Task, Task.Delay(timeout)).ConfigureAwait(true);
+            if (completed != tcs.Task)
+            {
+                lock (_exportLock)
+                {
+                    if (ReferenceEquals(_exportTcs, tcs))
+                    {
+                        _exportHandler.OnCompleted = null;
+                        _exportTcs = null;
+                    }
+                }
+
+                // Abandon waiting; late completion is ignored.
+                tcs.TrySetCanceled();
+                return ExportWaitResult.TimedOut;
+            }
+
+            bool succeeded = await tcs.Task.ConfigureAwait(true);
+            return succeeded ? ExportWaitResult.Succeeded : ExportWaitResult.Failed;
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private enum ExportWaitResult
+        {
+            Succeeded,
+            Failed,
+            TimedOut
         }
     }
 }
