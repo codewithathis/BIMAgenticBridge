@@ -1,86 +1,53 @@
 # BIM Agentic Bridge
 
-AI-based BIM assessment bridge: a **Revit 2027** (.NET 10) WPF chat plugin that exports room data, plus a local **FastAPI** agent that answers questions using OpenAI tool-calling against the exported JSON.
+**Ask your Revit model questions in plain English — get answers grounded in live BIM data.**
 
-## Author
+BIM Agentic Bridge is an AI-powered Revit plugin that turns room, level, door, and window data into a conversational assistant inside Autodesk Revit. Architects, BIM managers, and project teams can query the active model without building schedules or exporting spreadsheets first.
 
-**Athis J**
+![BIM Agentic Bridge in Autodesk Revit — chat answering “how many rooms available” with 113 rooms](Screenshot_1.png)
 
-| | |
-|---|---|
-| Email | [trichyathis@gmail.com](mailto:trichyathis@gmail.com) |
-| GitHub | [github.com/codewithathis](https://github.com/codewithathis) |
-| LinkedIn | [linkedin.com/in/athis-j](https://www.linkedin.com/in/athis-j) |
-
-See also [AUTHORS.md](AUTHORS.md).
+*Demo: docked **BIM Agentic Bridge** chat in Revit 2027, answering natural-language questions from extracted model data.*
 
 ---
 
-## For recruiters / reviewers — run it yourself
+## Product overview
 
-You can evaluate this project without the author’s machine. You need:
+| | |
+|---|---|
+| **Product** | BIM Agentic Bridge |
+| **Platform** | Autodesk Revit 2027 (.NET 10 add-in) + local FastAPI AI agent |
+| **Author** | [Athis J](https://github.com/codewithathis) |
+| **Contact** | [trichyathis@gmail.com](mailto:trichyathis@gmail.com) · [LinkedIn](https://www.linkedin.com/in/athis-j) |
 
-| Requirement | Notes |
-|-------------|--------|
-| Windows 10/11 | Revit is Windows-only |
-| Autodesk Revit **2027** | API DLLs + runtime host |
-| .NET **10** SDK (x64) | `C:\Program Files\dotnet\dotnet.exe --list-sdks` |
-| Python **3.11+** | Backend agent |
-| OpenAI API key | Your own key in `backend/.env` |
+### What it does
 
-### 1) Backend (5 minutes)
+1. **Chat inside Revit** — Dockable WPF panel on the **BIM Agentic** ribbon tab.
+2. **Extract model data** — Uses the Revit API (`FilteredElementCollector`) to export rooms (name, number, level, area), door/window counts, and levels — including loaded linked models.
+3. **Answer with AI tools** — A local FastAPI agent uses OpenAI function calling to query the export and reply in natural language.
+4. **Stay in sync** — If data is missing or stale, the agent requests a fresh extraction; the plugin refreshes and retries automatically (with timeout protection).
 
-```powershell
-cd backend
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-copy .env.example .env
-```
+### Who it is for
 
-Edit `backend/.env`:
+- Architecture / interior firms using Revit daily  
+- BIM managers validating room inventories and openings  
+- Design QA / assessment workflows (“how many rooms?”, “doors on Level 2?”)  
+- Consultancies pitching AI + BIM productivity tools  
 
-- Set `OPENAI_API_KEY`
-- Leave `DATA_JSON_PATH` empty (uses `%LOCALAPPDATA%\BimAgenticBridge\data.json`)
+### Key benefits
 
-```powershell
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
+- **Faster answers** — No schedule setup for common room questions  
+- **Grounded in the model** — Answers come from extracted JSON, not invented counts  
+- **In-context UX** — Chat stays docked next to the 3D/plan view  
+- **Local-first agent** — Backend runs on your machine; you control the OpenAI key  
+- **Extensible** — Tool-based agent design can grow to more BIM queries  
 
-Checks:
+### Example questions
 
-- `GET http://127.0.0.1:8000/health` → `{"status":"ok"}`
-- `GET http://127.0.0.1:8000/about` → author credits
-- Optional (no Revit): copy `backend/tests/fixtures/sample_rooms.json` to `%LOCALAPPDATA%\BimAgenticBridge\data.json`, then `POST /chat` with a room question
-
-```powershell
-pytest
-```
-
-### 2) Revit plugin
-
-1. Set your Revit install path when building if it is not `D:\Development\Autodesk\Revit 2027`:
-
-```powershell
-& "C:\Program Files\dotnet\dotnet.exe" build revit-plugin\BimAgenticBridge.sln -c Debug `
-  -p:RevitInstallPath="C:\Program Files\Autodesk\Revit 2027"
-```
-
-2. Install the add-in for your user profile:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\install-addin.ps1
-```
-
-3. Start **Revit 2027** → ribbon **BIM Agentic** → **AI Chat**
-4. Open an **Architectural** model with rooms (Snowdon sample):  
-   `...\Revit 2027\Samples\Snowdon Towers Sample Architectural.rvt`  
-   (The Structural sample has no rooms — that is expected.)
-5. With the backend running, ask: `How many rooms are on Level 1?`
-
-Shared export path (plugin + API):
-
-`%LOCALAPPDATA%\BimAgenticBridge\data.json`
+- How many rooms are available?  
+- How many rooms are on Level 1?  
+- How many doors / windows in room 101?  
+- List levels in this model  
+- Which rooms have no windows?  
 
 ---
 
@@ -96,7 +63,72 @@ Revit WPF Chat  →  POST /chat  →  OpenAI tools agent
 
 When the agent needs room data and the JSON is missing or stale, it returns `extraction_required`. The plugin extracts on the Revit API thread (45s timeout), writes `data.json`, and retries with `data_ready: true`.
 
-Backend agent collaborators: `DataReadinessPolicy`, `ToolExecutor`, and `ToolLoop` (orchestrated by `ChatAgent`).
+Backend collaborators: `DataReadinessPolicy`, `ToolExecutor`, and `ToolLoop` (orchestrated by `ChatAgent`).
+
+### Design patterns
+
+Client–server · MVVM · Command · Agent + Tools · DTO · ExternalEvent marshaling · layered modules  
+
+---
+
+## Commercial / licensing inquiry
+
+For pilots, licensing, or custom features (more element categories, company branding, multi-version Revit support, on-prem LLM), contact:
+
+**Athis J** — [trichyathis@gmail.com](mailto:trichyathis@gmail.com) · [GitHub](https://github.com/codewithathis) · [LinkedIn](https://www.linkedin.com/in/athis-j)
+
+---
+
+## For technical evaluation — run it yourself
+
+| Requirement | Notes |
+|-------------|--------|
+| Windows 10/11 | Revit is Windows-only |
+| Autodesk Revit **2027** | API DLLs + runtime host |
+| .NET **10** SDK (x64) | `C:\Program Files\dotnet\dotnet.exe --list-sdks` |
+| Python **3.11+** | Backend agent |
+| OpenAI API key | Your own key in `backend/.env` |
+
+### 1) Backend
+
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+copy .env.example .env
+```
+
+Edit `backend/.env`: set `OPENAI_API_KEY`. Leave `DATA_JSON_PATH` empty for `%LOCALAPPDATA%\BimAgenticBridge\data.json`.
+
+```powershell
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+- Health: `GET http://127.0.0.1:8000/health`  
+- About: `GET http://127.0.0.1:8000/about`  
+- Tests: `pytest`
+
+### 2) Revit plugin
+
+```powershell
+# Close Revit first (it locks the DLL)
+powershell -ExecutionPolicy Bypass -File .\scripts\build-plugin.ps1
+```
+
+Or build manually, then:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-addin.ps1
+```
+
+1. Start **Revit 2027** → **BIM Agentic** → **AI Chat**  
+2. Open an **Architectural** model with rooms (e.g. Snowdon Towers Sample Architectural)  
+3. Ask: `How many rooms are available?`
+
+Shared path: `%LOCALAPPDATA%\BimAgenticBridge\data.json`
+
+---
 
 ## Repository layout
 
@@ -104,9 +136,10 @@ Backend agent collaborators: `DataReadinessPolicy`, `ToolExecutor`, and `ToolLoo
 |------|---------|
 | `revit-plugin/` | C# .NET 10 Revit 2027 add-in |
 | `backend/` | FastAPI agent (`POST /chat`) |
-| `scripts/install-addin.ps1` | One-step add-in install for reviewers |
+| `scripts/build-plugin.ps1` | Build + install add-in |
+| `scripts/install-addin.ps1` | Write `.addin` for Revit 2027 |
+| `Screenshot_1.png` | Product screenshot |
 | `AUTHORS.md` | Author credits |
-| `data/` | Placeholder (runtime export uses AppData) |
 
 ## Chat API contract
 
@@ -118,38 +151,10 @@ Backend agent collaborators: `DataReadinessPolicy`, `ToolExecutor`, and `ToolLoo
 
 | status | meaning |
 |--------|---------|
-| `ok` | `reply` contains the natural-language answer |
-| `extraction_required` | Plugin must export rooms, then retry with `data_ready: true` |
+| `ok` | Natural-language answer in `reply` |
+| `extraction_required` | Plugin must export, then retry with `data_ready: true` |
 
-## Test plan
-
-### A. Plugin load
-
-1. Run `scripts/install-addin.ps1`; start Revit 2027
-2. Ribbon tab **BIM Agentic** → **AI Chat** appears
-3. Dockable panel **BIM Agentic Bridge** opens (footer credits the author)
-
-### B. Extraction
-
-1. Open **Snowdon Towers Sample Architectural.rvt**
-2. Ask a room question (or delete `data.json` first)
-3. Confirm `%LOCALAPPDATA%\BimAgenticBridge\data.json` has `roomCount` greater than 0
-4. Spot-check Name, Number, Level, Area, door/window counts vs Revit
-
-### C. Backend without Revit
-
-1. Copy fixture JSON to the AppData path
-2. Set `OPENAI_API_KEY`; start uvicorn
-3. `POST /chat` → answer grounded in JSON
-4. Delete `data.json` → BIM question returns `extraction_required`
-
-### D. End-to-end
-
-1. Revit + backend running
-2. Ask about windows/doors in a known room
-3. Ask a non-BIM question → no forced extract
-
-## Configuration reference
+## Configuration
 
 | Variable | Default | Notes |
 |----------|---------|-------|
@@ -160,5 +165,5 @@ Backend agent collaborators: `DataReadinessPolicy`, `ToolExecutor`, and `ToolLoo
 
 ## Credits
 
-Developed by **[Athis J](https://github.com/codewithathis)** for technical assessment / portfolio demonstration.  
+Developed by **[Athis J](https://github.com/codewithathis)**.  
 Contact: [trichyathis@gmail.com](mailto:trichyathis@gmail.com) · [LinkedIn](https://www.linkedin.com/in/athis-j)
