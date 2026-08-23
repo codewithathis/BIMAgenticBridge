@@ -16,12 +16,12 @@ Senior software developer
 **BIM Agentic Bridge** (`BimAgenticBridge`) is an assessment / portfolio project demonstrating:
 
 - Autodesk Revit 2027 add-in development (C# / .NET 10 / WPF)
-- Local AI agent with OpenAI function calling (Python / FastAPI)
+- Customer-facing AI agent with Gemini / Google ADK function calling (Python / FastAPI / Cloud Run)
 - Clean separation between model extraction and natural-language Q&A
 
 ## Credits
 
 - Built by [Athis J](https://github.com/codewithathis)
-- Uses Autodesk Revit API, OpenAI API, FastAPI, Newtonsoft.Json
+- Uses Autodesk Revit API, Google Gemini / ADK, FastAPI, Newtonsoft.Json
 
 If you are reviewing this for hiring, thank you for taking the time. Setup instructions so you can run it yourself are in the root [README.md](README.md).

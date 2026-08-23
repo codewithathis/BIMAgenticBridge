@@ -19,8 +19,11 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    openai_api_key: str = ""
-    openai_model: str = "gpt-4o-mini"
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-1.5-flash"
+    google_cloud_project: str = ""
+    google_cloud_location: str = "us-central1"
+    google_genai_use_vertexai: bool = False
     data_json_path: str = ""
     data_ttl_seconds: int = 300
     api_host: str = "127.0.0.1"

@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from typing import Optional
-
-from openai import OpenAI
+from typing import Any, Optional
 
 from app.config import Settings
-from app.exceptions import AgentConfigurationError, ExtractionRequired
+from app.exceptions import ExtractionRequired
+from app.gemini_client import build_gemini_client
 from app.models import ChatResponse
 from app.services.data_readiness import DataReadinessPolicy
 from app.services.tool_executor import ToolExecutor
@@ -13,12 +12,12 @@ from app.services.tool_loop import ToolLoop
 
 
 class ChatAgent:
-    """Orchestrates readiness policy, tool execution, and the LLM tool loop."""
+    """Orchestrates readiness policy, tool execution, and the Gemini tool loop."""
 
     def __init__(
         self,
         settings: Settings,
-        client: Optional[OpenAI] = None,
+        client: Optional[Any] = None,
         readiness: Optional[DataReadinessPolicy] = None,
         tool_executor: Optional[ToolExecutor] = None,
         tool_loop: Optional[ToolLoop] = None,
@@ -34,19 +33,14 @@ class ChatAgent:
         self._tool_loop = tool_loop
 
     @property
-    def client(self) -> OpenAI:
+    def client(self) -> Any:
         if self._client is None:
-            if not self.settings.openai_api_key:
-                raise AgentConfigurationError(
-                    "OPENAI_API_KEY is not configured. Copy backend/.env.example to "
-                    "backend/.env and set your key."
-                )
-            self._client = OpenAI(api_key=self.settings.openai_api_key)
+            self._client = build_gemini_client(self.settings)
         return self._client
 
     def _get_tool_loop(self) -> ToolLoop:
         if self._tool_loop is None:
-            self._tool_loop = ToolLoop(self.client, self.settings.openai_model)
+            self._tool_loop = ToolLoop(self.client, self.settings.gemini_model)
         return self._tool_loop
 
     def handle_chat(

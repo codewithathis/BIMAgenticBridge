@@ -100,29 +100,47 @@ def query_room_data(
     }
 
 
-QUERY_ROOM_DATA_TOOL = {
-    "type": "function",
-    "function": {
-        "name": "query_room_data",
-        "description": (
-            "Query extracted BIM data from the local Revit export. "
-            "Returns rooms (with door/window counts), levels, source documents, and notes. "
-            "Use for questions about rooms, areas, levels, floors, doors, or windows. "
-            "If rooms are empty, explain notes (often a structural model without rooms)."
-        ),
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "room_number": {
-                    "type": "string",
-                    "description": "Optional room number filter, e.g. '101'.",
-                },
-                "level": {
-                    "type": "string",
-                    "description": "Optional level name filter, e.g. 'Level 1'.",
-                },
+QUERY_ROOM_DATA_DECLARATION = {
+    "name": "query_room_data",
+    "description": (
+        "Query extracted BIM data from the local Revit export. "
+        "Returns rooms (with door/window counts), levels, source documents, and notes. "
+        "Use for questions about rooms, areas, levels, floors, doors, or windows. "
+        "If rooms are empty, explain notes (often a structural model without rooms)."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "room_number": {
+                "type": "string",
+                "description": "Optional room number filter, e.g. '101'.",
             },
-            "additionalProperties": False,
+            "level": {
+                "type": "string",
+                "description": "Optional level name filter, e.g. 'Level 1'.",
+            },
         },
     },
 }
+
+
+def query_room_data_tool(
+    room_number: Optional[str] = None,
+    level: Optional[str] = None,
+) -> dict[str, Any]:
+    """Query extracted BIM data from the Revit export.
+
+    Returns rooms (with door/window counts), levels, source documents, and notes.
+    Use for questions about rooms, areas, levels, floors, doors, or windows.
+
+    Args:
+        room_number: Optional room number filter, e.g. '101'.
+        level: Optional level name filter, e.g. 'Level 1'.
+    """
+    from app.config import get_settings
+
+    return query_room_data(
+        get_settings().resolved_data_json_path,
+        room_number=room_number,
+        level=level,
+    )

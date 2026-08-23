@@ -6,7 +6,7 @@ from app.routers import chat
 app = FastAPI(
     title="BIM Agentic Bridge",
     description=(
-        "Local AI agent for Revit BIM room assessment. "
+        "Customer-facing Gemini agent for Revit BIM room assessment. "
         "Author: Athis J — https://github.com/codewithathis"
     ),
     version="1.0.0",
@@ -17,10 +17,11 @@ app = FastAPI(
     },
 )
 
+# Required for the Revit plugin and any web UI hosted on a different origin (Cloud Run).
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
