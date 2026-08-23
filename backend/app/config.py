@@ -19,8 +19,11 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    llm_provider: str = "gemini"
     gemini_api_key: str = ""
     gemini_model: str = "gemini-1.5-flash"
+    openai_api_key: str = ""
+    openai_model: str = "gpt-4o-mini"
     google_cloud_project: str = ""
     google_cloud_location: str = "us-central1"
     google_genai_use_vertexai: bool = False

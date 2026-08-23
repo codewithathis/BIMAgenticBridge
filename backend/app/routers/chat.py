@@ -2,6 +2,7 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException
 from google.genai import errors as genai_errors
+from openai import APIError, APITimeoutError, AuthenticationError, RateLimitError
 
 from app.agent import ChatAgent
 from app.config import Settings, get_settings
@@ -17,7 +18,7 @@ def get_agent(settings: Settings = Depends(get_settings)) -> ChatAgent:
     return ChatAgent(settings)
 
 
-def _is_auth_or_rate_limit(exc: genai_errors.APIError) -> bool:
+def _is_gemini_auth_or_rate_limit(exc: genai_errors.APIError) -> bool:
     code = getattr(exc, "code", None)
     if code in (401, 403, 429):
         return True
@@ -39,8 +40,14 @@ def chat(
     except AgentConfigurationError as exc:
         logger.warning("Chat configuration error: %s", exc)
         raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except (AuthenticationError, RateLimitError) as exc:
+        logger.warning("LLM auth/rate limit error: %s", exc)
+        raise HTTPException(
+            status_code=503,
+            detail="LLM provider rejected the request. Check API key and rate limits.",
+        ) from exc
     except genai_errors.APIError as exc:
-        if _is_auth_or_rate_limit(exc):
+        if _is_gemini_auth_or_rate_limit(exc):
             logger.warning("LLM auth/rate limit error: %s", exc)
             raise HTTPException(
                 status_code=503,
@@ -51,7 +58,7 @@ def chat(
             status_code=502,
             detail="The language model service failed. Please try again.",
         ) from exc
-    except UpstreamLlmError as exc:
+    except (APITimeoutError, APIError, UpstreamLlmError) as exc:
         logger.exception("Upstream LLM failure")
         raise HTTPException(
             status_code=502,

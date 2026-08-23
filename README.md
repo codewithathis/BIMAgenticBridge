@@ -121,7 +121,7 @@ pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Edit `backend/.env`: set `GEMINI_API_KEY`. Leave `DATA_JSON_PATH` empty for `%LOCALAPPDATA%\BimAgenticBridge\data.json`.
+Edit `backend/.env`: set `LLM_PROVIDER=gemini` and `GEMINI_API_KEY`, or `LLM_PROVIDER=openai` and `OPENAI_API_KEY`. Leave `DATA_JSON_PATH` empty for `%LOCALAPPDATA%\BimAgenticBridge\data.json`.
 
 ```powershell
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
@@ -193,8 +193,11 @@ Shared path: `%LOCALAPPDATA%\BimAgenticBridge\data.json`
 
 | Variable                    | Default                                     | Notes                                           |
 | --------------------------- | ------------------------------------------- | ----------------------------------------------- |
-| `GEMINI_API_KEY`            | *(empty)*                                   | Required for `/chat` unless using Vertex ADC    |
+| `LLM_PROVIDER`              | `gemini`                                    | `gemini` or `openai`                            |
+| `GEMINI_API_KEY`            | *(empty)*                                   | Required when `LLM_PROVIDER=gemini` unless ADC  |
 | `GEMINI_MODEL`              | `gemini-1.5-flash`                          | Gemini chat model                               |
+| `OPENAI_API_KEY`            | *(empty)*                                   | Required when `LLM_PROVIDER=openai`             |
+| `OPENAI_MODEL`              | `gpt-4o-mini`                               | OpenAI chat model                               |
 | `GOOGLE_GENAI_USE_VERTEXAI` | `false`                                     | Use Vertex AI + Application Default Credentials |
 | `GOOGLE_CLOUD_PROJECT`      | *(empty)*                                   | GCP project for Vertex / Cloud Run ADC          |
 | `DATA_JSON_PATH`            | `%LOCALAPPDATA%\BimAgenticBridge\data.json` | Must match plugin                               |

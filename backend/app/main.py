@@ -6,7 +6,7 @@ from app.routers import chat
 app = FastAPI(
     title="BIM Agentic Bridge",
     description=(
-        "Customer-facing Gemini agent for Revit BIM room assessment. "
+        "Customer-facing Gemini or OpenAI agent for Revit BIM room assessment. "
         "Author: Athis J — https://github.com/codewithathis"
     ),
     version="1.0.0",
