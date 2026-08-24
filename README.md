@@ -131,6 +131,8 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 - About: `GET http://127.0.0.1:8000/about`  
 - Tests: `pytest`
 
+Public URL without GCP billing (Vercel): set Root Directory to `backend`, add `LLM_PROVIDER` and `GEMINI_API_KEY` in Vercel env vars, then `cd backend && npx vercel --prod`. The deploy includes `backend/data/data.json`. Details in `backend/README.md`.
+
 
 
 ### 2) Revit plugin

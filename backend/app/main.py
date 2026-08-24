@@ -17,7 +17,7 @@ app = FastAPI(
     },
 )
 
-# Required for the Revit plugin and any web UI hosted on a different origin (Cloud Run).
+# Required for the Revit plugin and any web UI hosted on a different origin (Vercel / Cloud Run).
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

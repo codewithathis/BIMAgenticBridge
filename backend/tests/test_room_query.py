@@ -56,3 +56,15 @@ def test_stale_data_detected(tmp_path: Path) -> None:
     availability = check_data_availability(path, ttl_seconds=60)
     assert availability.exists is True
     assert availability.stale is True
+
+
+def test_zero_ttl_never_stale(tmp_path: Path) -> None:
+    path = tmp_path / "data.json"
+    exported = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat().replace("+00:00", "Z")
+    path.write_text(
+        f'{{"exportedAtUtc": "{exported}", "documentTitle": "T", "rooms": []}}',
+        encoding="utf-8",
+    )
+    availability = check_data_availability(path, ttl_seconds=0)
+    assert availability.exists is True
+    assert availability.stale is False

@@ -1,0 +1,1146 @@
+{
+  "exportedAtUtc": "2026-07-18T06:40:15.0519516Z",
+  "documentTitle": "サンプル意匠",
+  "sourceDocuments": [
+    "サンプル意匠",
+    "サンプル構造"
+  ],
+  "levels": [
+    {
+      "name": "設計GL",
+      "elevation": -0.10000000000006064,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "2FL",
+      "elevation": 4.7999999999999385,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "1FL",
+      "elevation": -6.17065065711131E-14,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "3FL",
+      "elevation": 8.84999999999994,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ピット",
+      "elevation": -2.000000000000062,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "RSL",
+      "elevation": 29.099999999999948,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "4FL",
+      "elevation": 12.89999999999994,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "5FL",
+      "elevation": 16.949999999999942,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "6FL",
+      "elevation": 20.999999999999943,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "7FL",
+      "elevation": 25.04999999999995,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PH RSL",
+      "elevation": 32.29999999999995,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "Ptop",
+      "elevation": 30.39999999999995,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "BM",
+      "elevation": -0.12000000000006178,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "平均地盤面",
+      "elevation": -0.030000000000060572,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "1FL",
+      "elevation": 0.0,
+      "sourceDocument": "サンプル構造"
+    },
+    {
+      "name": "2FL",
+      "elevation": 4.8,
+      "sourceDocument": "サンプル構造"
+    },
+    {
+      "name": "3FL",
+      "elevation": 8.850000000000001,
+      "sourceDocument": "サンプル構造"
+    },
+    {
+      "name": "4FL",
+      "elevation": 12.900000000000002,
+      "sourceDocument": "サンプル構造"
+    },
+    {
+      "name": "5FL",
+      "elevation": 16.95,
+      "sourceDocument": "サンプル構造"
+    },
+    {
+      "name": "6FL",
+      "elevation": 21.000000000000004,
+      "sourceDocument": "サンプル構造"
+    },
+    {
+      "name": "7FL",
+      "elevation": 25.050000000000008,
+      "sourceDocument": "サンプル構造"
+    },
+    {
+      "name": "RFL",
+      "elevation": 29.10000000000001,
+      "sourceDocument": "サンプル構造"
+    },
+    {
+      "name": "設計GL",
+      "elevation": -0.1000000000000011,
+      "sourceDocument": "サンプル構造"
+    }
+  ],
+  "roomCount": 113,
+  "rooms": [
+    {
+      "name": "事務室",
+      "number": "1",
+      "level": "2FL",
+      "area": 640.62,
+      "doorCount": 5,
+      "windowCount": 26,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "2",
+      "level": "2FL",
+      "area": 9.15,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "階段室",
+      "number": "3",
+      "level": "2FL",
+      "area": 14.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELVホール",
+      "number": "5",
+      "level": "2FL",
+      "area": 17.49,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC女",
+      "number": "6",
+      "level": "2FL",
+      "area": 17.55,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "7",
+      "level": "2FL",
+      "area": 5.61,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "給湯室",
+      "number": "8",
+      "level": "2FL",
+      "area": 7.41,
+      "doorCount": 2,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "9",
+      "level": "2FL",
+      "area": 3.05,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "10",
+      "level": "2FL",
+      "area": 2.2,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC男",
+      "number": "12",
+      "level": "2FL",
+      "area": 15.23,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "管理人室",
+      "number": "14",
+      "level": "1FL",
+      "area": 9.77,
+      "doorCount": 1,
+      "windowCount": 1,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ポンプ室",
+      "number": "15",
+      "level": "1FL",
+      "area": 17.45,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "清掃 管理人 控室",
+      "number": "16",
+      "level": "1FL",
+      "area": 8.04,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "HWC",
+      "number": "17",
+      "level": "1FL",
+      "area": 5.12,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS1",
+      "number": "19",
+      "level": "1FL",
+      "area": 17.46,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "階段室",
+      "number": "20",
+      "level": "1FL",
+      "area": 14.31,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ゴミ置場",
+      "number": "22",
+      "level": "1FL",
+      "area": 15.19,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS2",
+      "number": "23",
+      "level": "1FL",
+      "area": 5.19,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "エントランス ホール",
+      "number": "24",
+      "level": "1FL",
+      "area": 40.09,
+      "doorCount": 2,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "風除室",
+      "number": "25",
+      "level": "1FL",
+      "area": 19.67,
+      "doorCount": 2,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "店舗",
+      "number": "26",
+      "level": "1FL",
+      "area": 163.83,
+      "doorCount": 2,
+      "windowCount": 1,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "駐車場",
+      "number": "27",
+      "level": "1FL",
+      "area": 207.8,
+      "doorCount": 7,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELVホール",
+      "number": "28",
+      "level": "1FL",
+      "area": 19.41,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "廊下2",
+      "number": "29",
+      "level": "1FL",
+      "area": 21.5,
+      "doorCount": 8,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "廊下",
+      "number": "30",
+      "level": "2FL",
+      "area": 35.68,
+      "doorCount": 13,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "設備バルコニー",
+      "number": "31",
+      "level": "2FL",
+      "area": 22.78,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "事務室",
+      "number": "32",
+      "level": "3FL",
+      "area": 640.81,
+      "doorCount": 5,
+      "windowCount": 25,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "33",
+      "level": "3FL",
+      "area": 9.15,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "階段室",
+      "number": "34",
+      "level": "3FL",
+      "area": 14.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "35",
+      "level": "3FL",
+      "area": 1.16,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC女",
+      "number": "36",
+      "level": "3FL",
+      "area": 17.55,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "37",
+      "level": "3FL",
+      "area": 2.2,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "給湯室",
+      "number": "38",
+      "level": "3FL",
+      "area": 7.41,
+      "doorCount": 2,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "39",
+      "level": "3FL",
+      "area": 2.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "40",
+      "level": "3FL",
+      "area": 5.61,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC男",
+      "number": "42",
+      "level": "3FL",
+      "area": 15.23,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "廊下",
+      "number": "44",
+      "level": "3FL",
+      "area": 35.68,
+      "doorCount": 13,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "設備バルコニー",
+      "number": "45",
+      "level": "3FL",
+      "area": 22.78,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "事務室",
+      "number": "46",
+      "level": "4FL",
+      "area": 640.81,
+      "doorCount": 5,
+      "windowCount": 25,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "47",
+      "level": "4FL",
+      "area": 9.15,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "階段室",
+      "number": "48",
+      "level": "4FL",
+      "area": 14.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELVホール",
+      "number": "49",
+      "level": "4FL",
+      "area": 17.49,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC女",
+      "number": "50",
+      "level": "4FL",
+      "area": 17.55,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "51",
+      "level": "4FL",
+      "area": 5.61,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "給湯室",
+      "number": "52",
+      "level": "4FL",
+      "area": 7.41,
+      "doorCount": 2,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "53",
+      "level": "4FL",
+      "area": 3.05,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "54",
+      "level": "4FL",
+      "area": 2.2,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC男",
+      "number": "56",
+      "level": "4FL",
+      "area": 15.23,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "廊下",
+      "number": "58",
+      "level": "4FL",
+      "area": 35.68,
+      "doorCount": 13,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "設備バルコニー",
+      "number": "59",
+      "level": "4FL",
+      "area": 22.78,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "事務室",
+      "number": "60",
+      "level": "5FL",
+      "area": 640.81,
+      "doorCount": 5,
+      "windowCount": 25,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "61",
+      "level": "5FL",
+      "area": 9.15,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "階段室",
+      "number": "62",
+      "level": "5FL",
+      "area": 14.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELVホール",
+      "number": "63",
+      "level": "5FL",
+      "area": 17.49,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC女",
+      "number": "64",
+      "level": "5FL",
+      "area": 17.55,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "65",
+      "level": "5FL",
+      "area": 5.61,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "給湯室",
+      "number": "66",
+      "level": "5FL",
+      "area": 7.41,
+      "doorCount": 2,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "67",
+      "level": "5FL",
+      "area": 3.05,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "68",
+      "level": "5FL",
+      "area": 2.2,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC男",
+      "number": "70",
+      "level": "5FL",
+      "area": 15.23,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "廊下",
+      "number": "72",
+      "level": "5FL",
+      "area": 35.68,
+      "doorCount": 13,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "設備バルコニー",
+      "number": "73",
+      "level": "5FL",
+      "area": 22.78,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "事務室",
+      "number": "74",
+      "level": "6FL",
+      "area": 640.81,
+      "doorCount": 5,
+      "windowCount": 25,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "75",
+      "level": "6FL",
+      "area": 9.15,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "階段室",
+      "number": "76",
+      "level": "6FL",
+      "area": 14.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELVホール",
+      "number": "77",
+      "level": "6FL",
+      "area": 17.49,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC女",
+      "number": "78",
+      "level": "6FL",
+      "area": 17.55,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "79",
+      "level": "6FL",
+      "area": 5.61,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "給湯室",
+      "number": "80",
+      "level": "6FL",
+      "area": 7.41,
+      "doorCount": 2,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "81",
+      "level": "6FL",
+      "area": 3.05,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "82",
+      "level": "6FL",
+      "area": 2.2,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC男",
+      "number": "84",
+      "level": "6FL",
+      "area": 15.23,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "廊下",
+      "number": "86",
+      "level": "6FL",
+      "area": 35.68,
+      "doorCount": 13,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "設備バルコニー",
+      "number": "87",
+      "level": "6FL",
+      "area": 22.78,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "事務室",
+      "number": "88",
+      "level": "7FL",
+      "area": 640.62,
+      "doorCount": 5,
+      "windowCount": 25,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "89",
+      "level": "7FL",
+      "area": 9.15,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "階段室",
+      "number": "90",
+      "level": "7FL",
+      "area": 14.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELVホール",
+      "number": "91",
+      "level": "7FL",
+      "area": 17.49,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC女",
+      "number": "92",
+      "level": "7FL",
+      "area": 17.55,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "93",
+      "level": "7FL",
+      "area": 5.61,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "給湯室",
+      "number": "94",
+      "level": "7FL",
+      "area": 7.41,
+      "doorCount": 2,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "95",
+      "level": "7FL",
+      "area": 3.05,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "EPS",
+      "number": "96",
+      "level": "7FL",
+      "area": 2.2,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "WC男",
+      "number": "98",
+      "level": "7FL",
+      "area": 15.23,
+      "doorCount": 3,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "廊下",
+      "number": "100",
+      "level": "7FL",
+      "area": 35.68,
+      "doorCount": 13,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "設備バルコニー",
+      "number": "101",
+      "level": "7FL",
+      "area": 22.78,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "102",
+      "level": "2FL",
+      "area": 3.12,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "103",
+      "level": "2FL",
+      "area": 2.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "104",
+      "level": "2FL",
+      "area": 1.16,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "105",
+      "level": "3FL",
+      "area": 3.05,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "106",
+      "level": "3FL",
+      "area": 3.12,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "108",
+      "level": "4FL",
+      "area": 3.12,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "109",
+      "level": "4FL",
+      "area": 2.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "110",
+      "level": "4FL",
+      "area": 1.16,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "111",
+      "level": "5FL",
+      "area": 3.12,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "112",
+      "level": "5FL",
+      "area": 2.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "113",
+      "level": "5FL",
+      "area": 1.16,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "114",
+      "level": "6FL",
+      "area": 3.12,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "115",
+      "level": "6FL",
+      "area": 2.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "116",
+      "level": "6FL",
+      "area": 1.16,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "117",
+      "level": "7FL",
+      "area": 3.12,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "118",
+      "level": "7FL",
+      "area": 2.11,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "119",
+      "level": "7FL",
+      "area": 1.16,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "廊下1",
+      "number": "121",
+      "level": "1FL",
+      "area": 6.3,
+      "doorCount": 2,
+      "windowCount": 1,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "消火水槽",
+      "number": "124",
+      "level": "ピット",
+      "area": 16.33,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ピット",
+      "number": "125",
+      "level": "ピット",
+      "area": 410.88,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELV ピット",
+      "number": "126",
+      "level": "ピット",
+      "area": 13.11,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "129",
+      "level": "1FL",
+      "area": 4.71,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "倉庫",
+      "number": "130",
+      "level": "1FL",
+      "area": 23.74,
+      "doorCount": 1,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELVホール",
+      "number": "142",
+      "level": "3FL",
+      "area": 17.49,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ピロティ",
+      "number": "141",
+      "level": "1FL",
+      "area": 173.3,
+      "doorCount": 3,
+      "windowCount": 1,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "ELV",
+      "number": "144",
+      "level": "1FL",
+      "area": 17.29,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    },
+    {
+      "name": "PS",
+      "number": "145",
+      "level": "1FL",
+      "area": 1.09,
+      "doorCount": 0,
+      "windowCount": 0,
+      "sourceDocument": "サンプル意匠"
+    }
+  ],
+  "notes": []
+}

@@ -5,11 +5,26 @@ from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-def default_data_json_path() -> str:
+def bundled_data_json_path() -> Path:
+    """Snapshot shipped with the backend (used on Vercel and as a local fallback)."""
+    return Path(__file__).resolve().parent.parent / "data" / "data.json"
+
+
+def default_data_json_path() -> Path:
+    bundled = bundled_data_json_path()
+    if os.environ.get("VERCEL"):
+        return bundled
+
     local_app_data = os.environ.get("LOCALAPPDATA")
     if local_app_data:
-        return str(Path(local_app_data) / "BimAgenticBridge" / "data.json")
-    return str(Path.home() / "AppData" / "Local" / "BimAgenticBridge" / "data.json")
+        local = Path(local_app_data) / "BimAgenticBridge" / "data.json"
+        if local.exists() or not bundled.exists():
+            return local
+        return bundled
+
+    if bundled.exists():
+        return bundled
+    return Path.home() / "AppData" / "Local" / "BimAgenticBridge" / "data.json"
 
 
 class Settings(BaseSettings):
@@ -40,7 +55,7 @@ class Settings(BaseSettings):
                 # Resolve relative paths from the backend working directory.
                 path = (Path.cwd() / path).resolve()
             return path
-        return Path(default_data_json_path())
+        return default_data_json_path()
 
 
 @lru_cache

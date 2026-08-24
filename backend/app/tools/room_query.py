@@ -34,6 +34,10 @@ def check_data_availability(path: Path, ttl_seconds: int) -> DataAvailability:
     age_seconds: Optional[float] = None
     stale = False
 
+    # 0 or negative TTL means "never stale" (hosted snapshot on Vercel).
+    if ttl_seconds <= 0:
+        return DataAvailability(exists=True, stale=False, path=path, age_seconds=age_seconds)
+
     if exported_at:
         try:
             exported_dt = datetime.fromisoformat(exported_at.replace("Z", "+00:00"))

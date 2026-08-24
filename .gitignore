@@ -19,8 +19,8 @@ venv/
 dist/
 build/
 
-# Runtime data
-data/data.json
+# Runtime data written by the Revit plugin (repo root)
+/data/data.json
 
 # IDE / OS
 .idea/
