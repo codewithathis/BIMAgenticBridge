@@ -99,7 +99,9 @@ For pilots, licensing, or custom features (more element categories, company bran
 
 ## Support
 
-If this project helped you, you can [buy me a coffee](https://buymeacoffee.com/codewithathis).
+If this project helped you:
+
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/codewithathis)
 
 ---
 
@@ -258,4 +260,4 @@ Installed builds prefer DPAPI `credentials.dat` + `config.json` (`api_base_url`,
 ## Credits
 
 Developed by **[Athis J](https://github.com/codewithathis)**.  
-Contact: [trichyathis@gmail.com](mailto:trichyathis@gmail.com) · [LinkedIn](https://www.linkedin.com/in/athis-j) · [Buy me a coffee](https://buymeacoffee.com/codewithathis)
+Contact: [trichyathis@gmail.com](mailto:trichyathis@gmail.com) · [LinkedIn](https://www.linkedin.com/in/athis-j) · [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/codewithathis)

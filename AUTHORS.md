@@ -10,7 +10,7 @@ Senior software developer
 | Email | [trichyathis@gmail.com](mailto:trichyathis@gmail.com) |
 | GitHub | [github.com/codewithathis](https://github.com/codewithathis) |
 | LinkedIn | [linkedin.com/in/athis-j](https://www.linkedin.com/in/athis-j) |
-| Support | [buymeacoffee.com/codewithathis](https://buymeacoffee.com/codewithathis) |
+| Support | [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/codewithathis) |
 
 ## Project
 
@@ -29,4 +29,6 @@ If you are reviewing this for hiring, thank you for taking the time. Setup instr
 
 ## Support
 
-If this project helped you, you can [buy me a coffee](https://buymeacoffee.com/codewithathis).
+If this project helped you:
+
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/codewithathis)
