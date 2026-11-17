@@ -32,10 +32,12 @@ namespace BimAgenticBridge.Services
 
     public sealed class ChatApiClient : IDisposable
     {
+        public const string AuthHeaderName = "X-BimAgentic-Token";
+
         private readonly HttpClient _httpClient;
         private readonly bool _ownsClient;
 
-        public ChatApiClient(string baseUrl = null, HttpClient httpClient = null)
+        public ChatApiClient(string baseUrl = null, string authToken = null, HttpClient httpClient = null)
         {
             if (httpClient != null)
             {
@@ -44,11 +46,21 @@ namespace BimAgenticBridge.Services
             }
             else
             {
+                RuntimeConfigData config = RuntimeConfig.Load();
+                string resolvedBase = baseUrl
+                    ?? (string.IsNullOrWhiteSpace(config.ApiBaseUrl) ? PathConfig.DefaultApiBaseUrl : config.ApiBaseUrl);
+                string token = authToken ?? config.AuthToken ?? string.Empty;
+
                 _httpClient = new HttpClient
                 {
-                    BaseAddress = new Uri((baseUrl ?? PathConfig.DefaultApiBaseUrl).TrimEnd('/') + "/"),
+                    BaseAddress = new Uri(resolvedBase.TrimEnd('/') + "/"),
                     Timeout = TimeSpan.FromMinutes(2)
                 };
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                    _httpClient.DefaultRequestHeaders.TryAddWithoutValidation(AuthHeaderName, token);
+                }
+
                 _ownsClient = true;
             }
         }
@@ -69,8 +81,21 @@ namespace BimAgenticBridge.Services
                 string body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (!response.IsSuccessStatusCode)
                 {
+                    if ((int)response.StatusCode == 401)
+                    {
+                        throw new HttpRequestException(
+                            "Local backend rejected the auth token. Reinstall or repair config.json auth_token.");
+                    }
+
+                    if ((int)response.StatusCode == 503)
+                    {
+                        throw new HttpRequestException(
+                            "AI backend is not configured or the API key was rejected. "
+                            + "Use Start Menu → BIM Agentic Bridge → Configure API Key. Details: " + TrimBody(body));
+                    }
+
                     throw new HttpRequestException(
-                        $"Chat API returned {(int)response.StatusCode}: {body}");
+                        $"Chat API returned {(int)response.StatusCode}: {TrimBody(body)}");
                 }
 
                 var result = JsonConvert.DeserializeObject<ChatResponse>(body);
@@ -81,6 +106,17 @@ namespace BimAgenticBridge.Services
 
                 return result;
             }
+        }
+
+        private static string TrimBody(string body)
+        {
+            if (string.IsNullOrWhiteSpace(body))
+            {
+                return string.Empty;
+            }
+
+            body = body.Trim();
+            return body.Length <= 300 ? body : body.Substring(0, 300) + "…";
         }
 
         public void Dispose()

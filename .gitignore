@@ -18,6 +18,7 @@ venv/
 .mypy_cache/
 dist/
 build/
+installer/Output/
 
 # Runtime data written by the Revit plugin (repo root)
 /data/data.json

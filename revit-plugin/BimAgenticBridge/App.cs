@@ -20,6 +20,9 @@ namespace BimAgenticBridge
         {
             try
             {
+                // Non-blocking: start/reuse local backend in the background.
+                BackendProcessManager.Instance.BeginEnsure();
+
                 _apiClient = new ChatApiClient();
                 _exportHandler = new ExportRequestHandler();
                 _exportEvent = ExternalEvent.Create(_exportHandler);
@@ -44,6 +47,7 @@ namespace BimAgenticBridge
 
         public Result OnShutdown(UIControlledApplication application)
         {
+            // v1: leave backend running so other Revit sessions keep working.
             _apiClient?.Dispose();
             return Result.Succeeded;
         }

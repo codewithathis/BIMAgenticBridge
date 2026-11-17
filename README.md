@@ -18,7 +18,7 @@ BIM Agentic Bridge in Autodesk Revit — chat answering “how many rooms availa
 |              |                                                                                                         |
 | ------------ | ------------------------------------------------------------------------------------------------------- |
 | **Product**  | BIM Agentic Bridge                                                                                      |
-| **Platform** | Autodesk Revit 2027 (.NET 10 add-in) + FastAPI Gemini agent (Cloud Run)                                 |
+| **Platform** | Autodesk Revit 2027 (.NET 10 add-in) + FastAPI Gemini agent (local / Cloud Run)                         |
 | **Author**   | [Athis J](https://github.com/codewithathis)                                                             |
 | **Contact**  | [trichyathis@gmail.com](mailto:trichyathis@gmail.com) · [LinkedIn](https://www.linkedin.com/in/athis-j) |
 
@@ -97,7 +97,36 @@ For pilots, licensing, or custom features (more element categories, company bran
 
 
 
-## For technical evaluation — run it yourself
+## Support
+
+If this project helped you, you can [buy me a coffee](https://buymeacoffee.com/codewithathis).
+
+---
+
+
+
+## Install (end users)
+
+| Requirement | Notes |
+| --- | --- |
+| Windows 10/11 x64 | Revit is Windows-only |
+| Autodesk Revit **2027** | Detected by the installer |
+| Gemini or OpenAI API key | Optional during setup; configure later from Start Menu |
+
+1. Download `BIMAgenticBridge-Setup-*.exe` from [GitHub Releases](https://github.com/codewithathis/BimAgenticBridge/releases).
+2. Run the installer (no Python or .NET SDK required).
+3. Optionally enter your API key (stored with Windows DPAPI under `%LOCALAPPDATA%\BimAgenticBridge`).
+4. Open **Revit 2027** → ribbon **BIM Agentic** → **AI Chat**.
+5. Ask: `How many rooms are available?`
+
+Start Menu shortcuts: **Start Backend**, **Stop Backend**, **Configure API Key**.  
+The local backend listens on `http://127.0.0.1:8000` and stays running after Revit closes so multiple Revit sessions can share it.
+
+Packaging / signing notes for maintainers: [`installer/README.md`](installer/README.md).
+
+---
+
+## For developers — run from source
 
 
 | Requirement                 | Notes                                                     |
@@ -107,7 +136,6 @@ For pilots, licensing, or custom features (more element categories, company bran
 | .NET **10** SDK (x64)       | `C:\Program Files\dotnet\dotnet.exe --list-sdks`          |
 | Python **3.11+**            | Backend agent                                             |
 | Gemini API key (or GCP ADC) | Your own key in `backend/.env`, or Vertex AI on Cloud Run |
-
 
 
 
@@ -124,10 +152,14 @@ copy .env.example .env
 Edit `backend/.env`: set `LLM_PROVIDER=gemini` and `GEMINI_API_KEY`, or `LLM_PROVIDER=openai` and `OPENAI_API_KEY`. Leave `DATA_JSON_PATH` empty for `%LOCALAPPDATA%\BimAgenticBridge\data.json`.
 
 ```powershell
+# Dev (uvicorn)
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+# Or the packaging entrypoint
+python run_server.py
 ```
 
-- Health: `GET http://127.0.0.1:8000/health`  
+- Health: `GET http://127.0.0.1:8000/health` (includes `product` + `version`)  
 - About: `GET http://127.0.0.1:8000/about`  
 - Tests: `pytest`
 
@@ -154,6 +186,14 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-addin.ps1
 
 Shared path: `%LOCALAPPDATA%\BimAgenticBridge\data.json`
 
+### 3) Build the Windows installer
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\package-release.ps1
+```
+
+Produces `dist/BIMAgenticBridge-Setup-{version}.exe`. See [`installer/README.md`](installer/README.md).
+
 ---
 
 
@@ -161,14 +201,19 @@ Shared path: `%LOCALAPPDATA%\BimAgenticBridge\data.json`
 ## Repository layout
 
 
-| Path                        | Purpose                       |
-| --------------------------- | ----------------------------- |
-| `revit-plugin/`             | C# .NET 10 Revit 2027 add-in  |
-| `backend/`                  | FastAPI agent (`POST /chat`)  |
-| `scripts/build-plugin.ps1`  | Build + install add-in        |
-| `scripts/install-addin.ps1` | Write `.addin` for Revit 2027 |
-| `Screenshot_1.png`          | Product screenshot            |
-| `AUTHORS.md`                | Author credits                |
+| Path                            | Purpose                                      |
+| ------------------------------- | -------------------------------------------- |
+| `revit-plugin/`                 | C# .NET 10 Revit 2027 add-in                 |
+| `backend/`                      | FastAPI agent (`POST /chat`)                 |
+| `backend/run_server.py`         | Local/frozen backend entrypoint              |
+| `installer/`                    | Inno Setup script + install helpers          |
+| `scripts/build-plugin.ps1`      | Build + install add-in (dev)                 |
+| `scripts/build-backend-exe.ps1` | PyInstaller one-folder freeze                |
+| `scripts/package-release.ps1`   | Full Setup.exe packaging                     |
+| `scripts/install-addin.ps1`     | Write `.addin` for Revit 2027                |
+| `version.txt`                   | Product version for releases                 |
+| `Screenshot_1.png`              | Product screenshot                           |
+| `AUTHORS.md`                    | Author credits                               |
 
 
 
@@ -187,6 +232,7 @@ Shared path: `%LOCALAPPDATA%\BimAgenticBridge\data.json`
 | `ok`                  | Natural-language answer in `reply`                     |
 | `extraction_required` | Plugin must export, then retry with `data_ready: true` |
 
+Installed backends also require header `X-BimAgentic-Token` (from `%LOCALAPPDATA%\BimAgenticBridge\config.json`).
 
 
 
@@ -205,10 +251,11 @@ Shared path: `%LOCALAPPDATA%\BimAgenticBridge\data.json`
 | `DATA_JSON_PATH`            | `%LOCALAPPDATA%\BimAgenticBridge\data.json` | Must match plugin                               |
 | `DATA_TTL_SECONDS`          | `300`                                       | Stale threshold before re-extract               |
 
+Installed builds prefer DPAPI `credentials.dat` + `config.json` (`api_base_url`, `auth_token`) under `%LOCALAPPDATA%\BimAgenticBridge`.
 
 
 
 ## Credits
 
 Developed by **[Athis J](https://github.com/codewithathis)**.  
-Contact: [trichyathis@gmail.com](mailto:trichyathis@gmail.com) · [LinkedIn](https://www.linkedin.com/in/athis-j)
+Contact: [trichyathis@gmail.com](mailto:trichyathis@gmail.com) · [LinkedIn](https://www.linkedin.com/in/athis-j) · [Buy me a coffee](https://buymeacoffee.com/codewithathis)

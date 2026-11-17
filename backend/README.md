@@ -26,6 +26,16 @@ Edit `.env` and set `LLM_PROVIDER` to `gemini` or `openai`. For Gemini, set `GEM
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
+Packaging entrypoint (also used by the frozen `BimAgenticBridge.Backend.exe`):
+
+```powershell
+python run_server.py
+python run_server.py configure --provider gemini --key YOUR_KEY
+python run_server.py --stop
+```
+
+Installed builds bind to `127.0.0.1` only, load DPAPI credentials from `%LOCALAPPDATA%\BimAgenticBridge\credentials.dat`, and require `X-BimAgentic-Token` from `config.json` on `/chat`.
+
 ## Endpoint
 
 `POST /chat`

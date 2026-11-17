@@ -60,7 +60,13 @@ def test_health() -> None:
     client = TestClient(app)
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "ok"}
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["product"] == "BIM Agentic Bridge"
+    assert payload["product_slug"] == "bim-agentic-bridge"
+    assert "version" in payload
+    assert "gemini_api_key" not in payload
+    assert "auth_token" not in payload
 
 
 def test_about() -> None:
@@ -71,13 +77,16 @@ def test_about() -> None:
     assert payload["product"] == "BIM Agentic Bridge"
     assert "author" in payload
     assert "github" in payload
+    assert "gemini_api_key" not in payload
+    assert "auth_token" not in payload
 
 
-def test_cors_allows_cross_origin_health() -> None:
+def test_local_health_does_not_send_permissive_cors() -> None:
+    """Installed/local backends lock down CORS; hosted (VERCEL) keeps open CORS."""
     client = TestClient(app)
     response = client.get("/health", headers={"Origin": "https://example.com"})
     assert response.status_code == 200
-    assert response.headers.get("access-control-allow-origin") == "*"
+    assert response.headers.get("access-control-allow-origin") is None
 
 
 def test_agent_answers_without_tool() -> None:
@@ -125,16 +134,34 @@ def test_agent_queries_rooms_when_data_ready(sample_rooms_path: Path) -> None:
     assert client.calls == 2
 
 
-def test_agent_missing_api_key_raises_configuration_error() -> None:
-    settings = Settings(gemini_api_key="", data_ttl_seconds=300)
+def test_agent_missing_api_key_raises_configuration_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("GOOGLE_APPLICATION_CREDENTIALS", raising=False)
+    monkeypatch.delenv("GOOGLE_CLOUD_PROJECT", raising=False)
+    monkeypatch.delenv("GOOGLE_GENAI_USE_VERTEXAI", raising=False)
+    monkeypatch.delenv("K_SERVICE", raising=False)
+    settings = Settings(
+        gemini_api_key="",
+        google_cloud_project="",
+        google_genai_use_vertexai=False,
+        data_ttl_seconds=300,
+    )
     agent = ChatAgent(settings)
     with pytest.raises(AgentConfigurationError):
         agent.handle_chat("Hello")
 
 
-def test_chat_endpoint_missing_api_key() -> None:
+def test_chat_endpoint_missing_api_key(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("GOOGLE_APPLICATION_CREDENTIALS", raising=False)
+    monkeypatch.delenv("GOOGLE_CLOUD_PROJECT", raising=False)
+    monkeypatch.delenv("GOOGLE_GENAI_USE_VERTEXAI", raising=False)
+    monkeypatch.delenv("K_SERVICE", raising=False)
     app.dependency_overrides[chat_router.get_agent] = lambda: ChatAgent(
-        Settings(gemini_api_key="", data_ttl_seconds=300)
+        Settings(
+            gemini_api_key="",
+            google_cloud_project="",
+            google_genai_use_vertexai=False,
+            data_ttl_seconds=300,
+        )
     )
     try:
         client = TestClient(app)

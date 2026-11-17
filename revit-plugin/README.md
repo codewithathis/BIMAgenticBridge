@@ -61,8 +61,12 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-addin.ps1
 
 Or manually: copy a filled `BimAgenticBridge.addin` to `%AppData%\Autodesk\Revit\Addins\2027\` with the full path to your built DLL. Ensure `Newtonsoft.Json.dll` is next to the plugin DLL, then restart Revit 2027.
 
+End users should install via `BIMAgenticBridge-Setup-*.exe` (see [`../installer/README.md`](../installer/README.md)) instead of building from source.
+
 ## Runtime data path
 
 Room export writes to:
 
 `%LOCALAPPDATA%\BimAgenticBridge\data.json`
+
+Installed builds also read `config.json` (API base URL, auth token, backend exe path) and start/reuse the local backend asynchronously without blocking Revit startup. The backend is **not** stopped when Revit closes (multi-session safe).

@@ -152,6 +152,16 @@ namespace BimAgenticBridge.UI
 
             try
             {
+                StatusText = "Starting local AI backend…";
+                BackendEnsureResult ensure = await BackendProcessManager.Instance
+                    .EnsureStartedAsync()
+                    .ConfigureAwait(true);
+                if (!ensure.Succeeded)
+                {
+                    Messages.Add(new ChatMessage(ChatRole.Error, ensure.Message));
+                    return;
+                }
+
                 StatusText = "Waiting for AI agent…";
                 ChatResponse response = await _apiClient.PostChatAsync(message).ConfigureAwait(true);
 

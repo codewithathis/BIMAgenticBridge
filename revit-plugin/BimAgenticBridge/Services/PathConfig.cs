@@ -11,6 +11,9 @@ namespace BimAgenticBridge.Services
     {
         public const string AppFolderName = "BimAgenticBridge";
         public const string DataFileName = "data.json";
+        /// <summary>
+        /// Fallback when config.json is missing. Prefer RuntimeConfig.Load().ApiBaseUrl.
+        /// </summary>
         public const string DefaultApiBaseUrl = "http://127.0.0.1:8000";
 
         public static string DataDirectory =>
