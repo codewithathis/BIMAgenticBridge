@@ -31,4 +31,4 @@ If you are reviewing this for hiring, thank you for taking the time. Setup instr
 
 If this project helped you:
 
-[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/codewithathis)
+<a href="https://buymeacoffee.com/codewithathis"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40" /></a>

@@ -101,7 +101,7 @@ For pilots, licensing, or custom features (more element categories, company bran
 
 If this project helped you:
 
-[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://buymeacoffee.com/codewithathis)
+<a href="https://buymeacoffee.com/codewithathis"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40" /></a>
 
 ---
 
